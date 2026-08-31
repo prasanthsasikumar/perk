@@ -83,7 +83,7 @@ export default function MarketingPage() {
 function Stage({ n, label, title, body, children, last = false }: { n: string; label: string; title: string; body: string; children: React.ReactNode; last?: boolean }) {
   return (
     <section className={`mk-stage grid gap-8 py-14 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,4fr)] md:gap-10 md:py-20 ${last ? "" : ""}`}>
-      <div className="mk-reveal">
+      <div className="">
         <p className="font-mono text-4xl font-semibold tabular-nums tracking-tight md:text-5xl">{n}</p>
         <p className="mt-1 text-sm font-semibold uppercase tracking-[0.18em] text-accent">{label}</p>
       </div>

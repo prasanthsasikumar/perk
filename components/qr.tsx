@@ -13,7 +13,8 @@ export function Qr({ value, size = 200, className = "", label }: { value: string
   }, [value, size]);
   return (
     <div className={`inline-flex items-center justify-center rounded-2xl bg-white p-3 ${className}`} style={{ width: size + 24, height: size + 24 }}>
-      {src ? <img src={src} width={size} height={size} alt={label ?? "QR code"} className="block" /> : <span className="text-xs text-ink-muted">…</span>}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+              {src ? <img src={src} width={size} height={size} alt={label ?? "QR code"} className="block" /> : <span className="text-xs text-ink-muted">…</span>}
     </div>
   );
 }

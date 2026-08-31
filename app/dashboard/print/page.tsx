@@ -80,7 +80,8 @@ function Poster({ color, title, subtitle, qr, footer, url, logoUrl, name }: { co
   return (
     <div className="poster flex flex-col items-center rounded-3xl p-12 text-center text-white" style={{ background: color, minHeight: "270mm" }}>
       <div className="flex items-center gap-3">
-        {logoUrl ? <img src={logoUrl} alt="" className="h-16 w-16 rounded-2xl bg-white object-contain p-1" /> : <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 text-3xl font-bold">{name.slice(0, 1)}</span>}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+              {logoUrl ? <img src={logoUrl} alt="" className="h-16 w-16 rounded-2xl bg-white object-contain p-1" /> : <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 text-3xl font-bold">{name.slice(0, 1)}</span>}
         <span className="text-2xl font-semibold">{name}</span>
       </div>
       <h1 className="mt-14 text-5xl font-semibold leading-tight">{title}</h1>

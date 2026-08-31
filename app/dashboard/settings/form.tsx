@@ -30,6 +30,7 @@ export function SettingsForm({ shop }: { shop: ShopSettings }) {
           </Field>
           <Field label="Logo" htmlFor="logo" error={e.logo} hint={shop.logoUrl ? "Upload to replace the current logo." : "Square PNG or SVG."}>
             <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               {shop.logoUrl && <img src={shop.logoUrl} alt="" className="h-11 w-11 rounded-lg border border-line bg-white object-contain" />}
               <input id="logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="block w-full text-sm text-ink-soft file:mr-3 file:rounded-full file:border-0 file:bg-accent-soft file:px-4 file:py-2 file:text-sm file:font-medium file:text-accent" />
             </div>

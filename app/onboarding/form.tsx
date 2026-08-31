@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { useActionState, useMemo, useState } from "react";
 import { completeOnboarding, type OnboardingState } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input, Select } from "@/components/ui/input";
@@ -13,18 +13,15 @@ export function OnboardingForm({ appHost }: { appHost: string }) {
   const [state, action, pending] = useActionState<OnboardingState, FormData>(completeOnboarding, {});
   const v = state.values ?? {};
   const [name, setName] = useState(v.name ?? "");
-  const [slug, setSlug] = useState(v.slug ?? "");
+  const [manualSlug, setManualSlug] = useState(v.slug ?? "");
   const [slugTouched, setSlugTouched] = useState(Boolean(v.slug));
+  const slug = slugTouched ? manualSlug : slugify(name);
   const [color, setColor] = useState(v.brandColor ?? "#c96a2b");
   const [stamps, setStamps] = useState(Number(v.stampsRequired ?? 10));
   const [reward, setReward] = useState(v.rewardText ?? "Free coffee of your choice");
   const [mode, setMode] = useState<"barista" | "customer">((v.stampMode as "barista" | "customer") ?? "barista");
   const [cooldown, setCooldown] = useState(Number(v.customerScanCooldownMin ?? 15));
   const e = state.errors ?? {};
-
-  useEffect(() => {
-    if (!slugTouched) setSlug(slugify(name));
-  }, [name, slugTouched]);
 
   const preview = useMemo(() => Math.min(3, stamps), [stamps]);
 
@@ -39,7 +36,7 @@ export function OnboardingForm({ appHost }: { appHost: string }) {
           <Field label="Your URL" htmlFor="slug" error={e.slug} hint="Customers open this link (or scan its QR) to get their card. It can't be changed later.">
             <div className="flex items-center gap-2">
               <span className="shrink-0 text-ink-muted">{appHost}/</span>
-              <Input id="slug" name="slug" value={slug} onChange={(ev) => { setSlugTouched(true); setSlug(ev.target.value.toLowerCase()); }} placeholder="blue-bottle" required invalid={!!e.slug} className="font-mono" />
+              <Input id="slug" name="slug" value={slug} onChange={(ev) => { setSlugTouched(true); setManualSlug(ev.target.value.toLowerCase()); }} placeholder="blue-bottle" required invalid={!!e.slug} className="font-mono" />
             </div>
           </Field>
           <Field label="Logo (optional)" htmlFor="logo" error={e.logo} hint="Square PNG or SVG works best. Shown on the wallet pass.">

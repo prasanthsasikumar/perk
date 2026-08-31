@@ -67,38 +67,45 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
     );
   }
 
+  type Outcome = { kind: "ok"; stamps: number; rewardsAvailable: number; rewardEarned: boolean } | { kind: "cooldown"; retryAt: Date } | { kind: "error"; message: string };
+  let outcome: Outcome;
   try {
     const r = await stampCard(db, shop.id, card.id, { source: "customer_scan" });
     scheduleWalletUpdate(shop, r.card);
+    outcome = { kind: "ok", stamps: r.card.stamps, rewardsAvailable: r.card.rewardsAvailable, rewardEarned: Boolean(r.rewardEarned) };
+  } catch (e) {
+    if (e instanceof CooldownActive) outcome = { kind: "cooldown", retryAt: e.retryAt };
+    else if (isDomainError(e)) outcome = { kind: "error", message: e.message };
+    else throw e;
+  }
+
+  if (outcome.kind === "cooldown") {
+    const when = outcome.retryAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     return (
       <Shell shop={pub}>
-        <section className="rounded-3xl p-6 text-white shadow-xl" style={{ background: shop.brandColor }}>
-          <p className="text-sm opacity-90">{r.rewardEarned ? "You did it!" : "Stamped!"}</p>
-          <p className="mt-1 text-2xl font-semibold leading-tight">{r.rewardEarned ? `Reward unlocked: ${shop.rewardText}` : `${r.card.stamps} of ${shop.stampsRequired} stamps`}</p>
-          <div className="mt-5 rounded-2xl bg-white p-4 text-ink">
-            <StampGrid stamps={r.card.stamps} total={shop.stampsRequired} color={shop.brandColor} />
-            {r.card.rewardsAvailable > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>{r.card.rewardsAvailable} reward{r.card.rewardsAvailable > 1 ? "s" : ""} ready — show the barista to redeem.</p>}
-          </div>
-        </section>
-        <div className="mt-6 text-center">
+        <Notice title="Already stamped" body={`Your card was stamped recently. You can stamp again after ${when}.`}>
           <Link href={`/${slug}/card/${card.id}`} className={buttonClass("secondary", "lg")}>Open my card</Link>
-        </div>
+        </Notice>
       </Shell>
     );
-  } catch (e) {
-    if (e instanceof CooldownActive) {
-      const when = e.retryAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      return (
-        <Shell shop={pub}>
-          <Notice title="Already stamped" body={`Your card was stamped recently. You can stamp again after ${when}.`}>
-            <Link href={`/${slug}/card/${card.id}`} className={buttonClass("secondary", "lg")}>Open my card</Link>
-          </Notice>
-        </Shell>
-      );
-    }
-    if (isDomainError(e)) return <Shell shop={pub}><Notice title="Something went wrong" body={e.message} /></Shell>;
-    throw e;
   }
+  if (outcome.kind === "error") return <Shell shop={pub}><Notice title="Something went wrong" body={outcome.message} /></Shell>;
+
+  return (
+    <Shell shop={pub}>
+      <section className="rounded-3xl p-6 text-white shadow-xl" style={{ background: shop.brandColor }}>
+        <p className="text-sm opacity-90">{outcome.rewardEarned ? "You did it!" : "Stamped!"}</p>
+        <p className="mt-1 text-2xl font-semibold leading-tight">{outcome.rewardEarned ? `Reward unlocked: ${shop.rewardText}` : `${outcome.stamps} of ${shop.stampsRequired} stamps`}</p>
+        <div className="mt-5 rounded-2xl bg-white p-4 text-ink">
+          <StampGrid stamps={outcome.stamps} total={shop.stampsRequired} color={shop.brandColor} />
+          {outcome.rewardsAvailable > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>{outcome.rewardsAvailable} reward{outcome.rewardsAvailable > 1 ? "s" : ""} ready — show the barista to redeem.</p>}
+        </div>
+      </section>
+      <div className="mt-6 text-center">
+        <Link href={`/${slug}/card/${card.id}`} className={buttonClass("secondary", "lg")}>Open my card</Link>
+      </div>
+    </Shell>
+  );
 }
 
 function Notice({ title, body, children }: { title: string; body: string; children?: React.ReactNode }) {
