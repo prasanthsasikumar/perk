@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "e2e": "playwright test",
     "e2e:seed": "tsx scripts/seed-e2e.ts"
   },
