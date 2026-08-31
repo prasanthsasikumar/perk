@@ -1,10 +1,29 @@
-node_modules/
-.next/
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# next.js
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# env & secrets
 .env
 .env.*
 !.env.example
-.DS_Store
 *.pem
 *.p12
 certs/
+
+# misc
+.DS_Store
+npm-debug.log*
 .vercel

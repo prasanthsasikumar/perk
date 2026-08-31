@@ -1,0 +1,7 @@
+@media print {
+  @page { size: A4; margin: 10mm; }
+  aside, nav, .no-print { display: none !important; }
+  main { padding: 0 !important; }
+  .print-sheet { max-width: none !important; }
+  .poster { border-radius: 0 !important; min-height: 275mm !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
