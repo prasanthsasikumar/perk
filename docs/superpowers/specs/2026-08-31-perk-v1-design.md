@@ -112,7 +112,7 @@ All mutations to a card happen in one DB transaction with `SELECT … FOR UPDATE
 /[slug]/staff               barista scanner (PIN-gated)
 
 /api/wallet/apple/v1/…      Apple PassKit web service
-/api/cards/[id]/pass.pkpass signed Apple pass download
+/api/cards/[id]/apple-pass signed Apple pass download
 /api/cards/[id]/google-save redirect to Google save URL (signed JWT)
 ```
 

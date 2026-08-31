@@ -4,7 +4,7 @@ import { buildApplePass } from "@/lib/wallet/apple";
 import { getEnv } from "@/lib/env";
 
 /** Public download of a card's Apple Wallet pass. The card id is the bearer credential. */
-export async function GET(_req: Request, ctx: RouteContext<"/api/cards/[id]/pass.pkpass">) {
+export async function GET(_req: Request, ctx: RouteContext<"/api/cards/[id]/apple-pass">) {
   const { id } = await ctx.params;
   const found = await getCardByIdAny(db, id);
   if (!found) return new Response("Not found", { status: 404 });
