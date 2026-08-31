@@ -6,7 +6,13 @@ export async function generateMetadata({ params }: LayoutProps<"/[slug]">) {
   const { slug } = await params;
   const shop = await getShopBySlug(db, slug);
   if (!shop) return {};
-  return { title: `${shop.name} stamp card`, description: `Collect ${shop.stampsRequired} stamps at ${shop.name} to earn: ${shop.rewardText}.`, themeColor: shop.brandColor };
+  return { title: `${shop.name} stamp card`, description: `Collect ${shop.stampsRequired} stamps at ${shop.name} to earn: ${shop.rewardText}.` };
+}
+
+export async function generateViewport({ params }: LayoutProps<"/[slug]">) {
+  const { slug } = await params;
+  const shop = await getShopBySlug(db, slug);
+  return { themeColor: shop?.brandColor ?? "#faf7f2", width: "device-width", initialScale: 1 };
 }
 
 export default async function ShopLayout({ children, params }: LayoutProps<"/[slug]">) {

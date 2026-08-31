@@ -15,15 +15,16 @@ export async function checkRateLimit(
   windowMs: number,
   now: Date = new Date(),
 ): Promise<RateLimitResult> {
-  const cutoff = new Date(now.getTime() - windowMs);
+  const cutoff = new Date(now.getTime() - windowMs).toISOString();
+  const nowIso = now.toISOString();
   const [row] = await db
     .insert(rateLimits)
     .values({ key, count: 1, windowStart: now })
     .onConflictDoUpdate({
       target: rateLimits.key,
       set: {
-        count: sql`CASE WHEN ${rateLimits.windowStart} < ${cutoff} THEN 1 ELSE ${rateLimits.count} + 1 END`,
-        windowStart: sql`CASE WHEN ${rateLimits.windowStart} < ${cutoff} THEN ${now} ELSE ${rateLimits.windowStart} END`,
+        count: sql`CASE WHEN ${rateLimits.windowStart} < ${cutoff}::timestamptz THEN 1 ELSE ${rateLimits.count} + 1 END`,
+        windowStart: sql`CASE WHEN ${rateLimits.windowStart} < ${cutoff}::timestamptz THEN ${nowIso}::timestamptz ELSE ${rateLimits.windowStart} END`,
       },
     })
     .returning();

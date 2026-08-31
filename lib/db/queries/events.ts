@@ -10,12 +10,12 @@ function startOfUtcDay(d: Date): Date {
 }
 
 export async function getShopStats(db: DbOrTx, shopId: string, now: Date = new Date()): Promise<ShopStats> {
-  const dayStart = startOfUtcDay(now);
-  const weekStart = new Date(now.getTime() - 7 * 86_400_000);
+  const dayStart = startOfUtcDay(now).toISOString();
+  const weekStart = new Date(now.getTime() - 7 * 86_400_000).toISOString();
   const [agg] = await db
     .select({
-      stampsToday: sql<number>`coalesce(sum(case when ${events.type} = 'stamp' and ${events.createdAt} >= ${dayStart} then ${events.delta} else 0 end), 0)::int`,
-      stamps7d: sql<number>`coalesce(sum(case when ${events.type} = 'stamp' and ${events.createdAt} >= ${weekStart} then ${events.delta} else 0 end), 0)::int`,
+      stampsToday: sql<number>`coalesce(sum(case when ${events.type} = 'stamp' and ${events.createdAt} >= ${dayStart}::timestamptz then ${events.delta} else 0 end), 0)::int`,
+      stamps7d: sql<number>`coalesce(sum(case when ${events.type} = 'stamp' and ${events.createdAt} >= ${weekStart}::timestamptz then ${events.delta} else 0 end), 0)::int`,
       rewardsEarned: sql<number>`count(*) filter (where ${events.type} = 'reward_earned')::int`,
       rewardsRedeemed: sql<number>`count(*) filter (where ${events.type} = 'redeem')::int`,
     })
