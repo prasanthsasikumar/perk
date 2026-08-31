@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.pem
+*.p12
+certs/
+.vercel
