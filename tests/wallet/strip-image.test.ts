@@ -2,11 +2,13 @@ import { describe, it, expect } from "vitest";
 import { renderStripSvg, renderStripPng } from "@/lib/wallet/strip-image";
 
 describe("strip image", () => {
-  it("draws one circle per stamp slot and fills the earned ones", () => {
+  it("draws a white panel and one circle per stamp slot, filling the earned ones", () => {
     const svg = renderStripSvg({ stamps: 3, total: 10, color: "#c96a2b" });
+    expect(svg.match(/<rect[^>]*fill="#ffffff"/g)).toHaveLength(1); // white panel
     expect(svg.match(/<circle/g)).toHaveLength(10);
-    expect(svg.match(/fill="#c96a2b"/g)).toHaveLength(3);
-    expect(svg.match(/<path/g)).toHaveLength(3);
+    expect(svg.match(/fill="#c96a2b"/g)).toHaveLength(3); // solid filled stamps
+    expect(svg.match(/<path/g)).toHaveLength(3); // white checks
+    expect(svg.match(/stroke="#1c1917"/g)).toHaveLength(7); // outlined empties
   });
   it("wraps 10 stamps into two rows of five", () => {
     const svg = renderStripSvg({ stamps: 0, total: 10, color: "#000000" });
