@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
+/* Theme: studied-DNA (source: junadesign.co.nz) — white paper · neutral ink · plum #751E68 accent
+ * with lilac #f5eef4 wash · Rethink Sans · pill buttons · hairline neutral rules */
 :root {
   color-scheme: light;
-  --cream: #faf7f2;
+  --cream: #ffffff;
   --paper: #ffffff;
-  --ink: #1c1917;
-  --ink-soft: #57534e;
-  --ink-muted: #a8a29e;
-  --line: #e7e2da;
-  --accent: #c96a2b;
+  --ink: #171717;
+  --ink-soft: #525252;
+  --ink-muted: #a3a3a3;
+  --line: #e5e5e5;
+  --accent: #751e68;
   --accent-ink: #ffffff;
-  --accent-soft: #f6e7db;
+  --accent-soft: #f5eef4;
   --ok: #2f7a4a;
   --danger: #b3261e;
 }
@@ -27,7 +29,7 @@
   --color-accent-soft: var(--accent-soft);
   --color-ok: var(--ok);
   --color-danger: var(--danger);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-rethink-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
   --radius-card: 1rem;
 }

@@ -32,16 +32,16 @@ export default function MarketingPage() {
         </section>
 
         <div id="how" className="mx-auto w-full max-w-6xl px-5">
-          <Stage n="1.0" label="Set up" title="Two minutes, one email." body="Sign in with a magic link, name your shop, pick a colour and how many stamps earn the reward. Perk gives you a URL for your shop and a staff PIN.">
+          <Stage n="01" label="Set up" title="Two minutes, one email." body="Sign in with a magic link, name your shop, pick a colour and how many stamps earn the reward. Perk gives you a URL for your shop and a staff PIN.">
             <SetupVisual />
           </Stage>
-          <Stage n="2.0" label="Print" title="One poster on the counter." body="Print the A4 sheet from your dashboard. Customers scan it, tap once, and the card lands in their wallet — no app, no account, no form.">
+          <Stage n="02" label="Print" title="One poster on the counter." body="Print the A4 sheet from your dashboard. Customers scan it, tap once, and the card lands in their wallet — no app, no account, no form.">
             <PosterVisual />
           </Stage>
-          <Stage n="3.0" label="Stamp" title="Scan, or let them scan." body="Baristas scan the pass with any phone and tap +1. Or choose self-serve: customers scan a second QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
+          <Stage n="03" label="Stamp" title="Scan, or let them scan." body="Baristas scan the pass with any phone and tap +1. Or choose self-serve: customers scan a second QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
             <ScanVisual />
           </Stage>
-          <Stage n="4.0" label="Redeem" title="Rewards stack until they're used." body="At ten stamps the card resets and a reward is banked. Staff redeem it with a tap; the ledger records who stamped what, and you can fix a missed stamp from the dashboard." last>
+          <Stage n="04" label="Redeem" title="Rewards stack until they're used." body="At ten stamps the card resets and a reward is banked. Staff redeem it with a tap; the ledger records who stamped what, and you can fix a missed stamp from the dashboard." last>
             <RedeemVisual />
           </Stage>
         </div>
@@ -58,14 +58,14 @@ export default function MarketingPage() {
           </dl>
         </section>
 
-        <section className="border-t-[3px] border-ink">
+        <section className="border-t border-line bg-accent-soft/40">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-16 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-sm font-medium text-accent">Early access</p>
+              <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">Early access</span>
               <h2 className="mt-1 text-3xl font-semibold tracking-tight">Free until ten shops are on it.</h2>
               <p className="mt-2 max-w-prose text-ink-soft">We&rsquo;re building Perk with the first shops that use it. Set yours up today and you keep the early-access terms when paid plans arrive.</p>
             </div>
-            <Link href="/login" className="inline-flex h-12 shrink-0 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Start at stage 1.0 →</Link>
+            <Link href="/login" className="inline-flex h-12 shrink-0 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop →</Link>
           </div>
         </section>
       </main>
@@ -84,8 +84,7 @@ function Stage({ n, label, title, body, children, last = false }: { n: string; l
   return (
     <section className={`mk-stage grid gap-8 py-14 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,4fr)] md:gap-10 md:py-20 ${last ? "" : ""}`}>
       <div className="">
-        <p className="font-mono text-4xl font-semibold tabular-nums tracking-tight md:text-5xl">{n}</p>
-        <p className="mt-1 text-sm font-semibold uppercase tracking-[0.18em] text-accent">{label}</p>
+        <p className="text-sm font-medium text-ink-muted">{n} — <span className="text-accent">{label}</span></p>
       </div>
       <div className="mk-reveal min-w-0">
         <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
