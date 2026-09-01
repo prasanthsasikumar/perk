@@ -8,9 +8,19 @@ describe("strip image", () => {
     expect(svg.match(/fill="#c96a2b"/g)).toHaveLength(3);
     expect(svg.match(/<path/g)).toHaveLength(3);
   });
-  it("wraps large totals onto two rows", () => {
-    const svg = renderStripSvg({ stamps: 0, total: 20, color: "#000000" });
-    expect(svg.match(/<circle/g)).toHaveLength(20);
+  it("wraps 10 stamps into two rows of five", () => {
+    const svg = renderStripSvg({ stamps: 0, total: 10, color: "#000000" });
+    expect(svg.match(/<circle/g)).toHaveLength(10);
+    const xs = [...svg.matchAll(/cx="([0-9.]+)"/g)].map((m) => Number(m[1]));
+    expect(new Set(xs).size).toBe(5); // 5 columns
+    const ys = [...svg.matchAll(/cy="([0-9.]+)"/g)].map((m) => Number(m[1]));
+    expect(new Set(ys).size).toBe(2); // 2 rows
+  });
+  it("caps at three rows for large totals", () => {
+    const svg = renderStripSvg({ stamps: 0, total: 30, color: "#000000" });
+    expect(svg.match(/<circle/g)).toHaveLength(30);
+    const ys = [...svg.matchAll(/cy="([0-9.]+)"/g)].map((m) => Number(m[1]));
+    expect(new Set(ys).size).toBe(3);
   });
   it("renders a PNG", async () => {
     const png = await renderStripPng({ stamps: 5, total: 10, color: "#c96a2b", scale: 2 });

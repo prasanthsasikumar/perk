@@ -32,7 +32,9 @@ export function buildPassJson(shop: Shop, card: Card, { appUrl, passTypeId, team
     sharingProhibited: true,
     barcodes: [{ format: "PKBarcodeFormatQR", message: card.id, messageEncoding: "iso-8859-1", altText: card.shortCode }],
     storeCard: {
-      primaryFields: [{ key: "stamps", label: "STAMPS", value: `${card.stamps} / ${shop.stampsRequired}` }],
+      // The strip image is the stamp grid; header carries the count so nothing overlays the strip.
+      headerFields: [{ key: "stamps", label: "STAMPS", value: `${card.stamps}/${shop.stampsRequired}` }],
+      primaryFields: [],
       secondaryFields: [{ key: "reward", label: "REWARD", value: shop.rewardText }],
       auxiliaryFields: card.rewardsAvailable > 0 ? [{ key: "ready", label: "READY TO REDEEM", value: `${card.rewardsAvailable}` }] : [],
       backFields: [

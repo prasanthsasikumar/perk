@@ -4,8 +4,9 @@ export type StripOptions = { stamps: number; total: number; color: string; width
 
 /** Apple storeCard strip is 375×123 pt (1x). Circles laid out in rows of up to 10. */
 export function renderStripSvg({ stamps, total, color, width = 375, height = 123 }: StripOptions): string {
-  const perRow = Math.min(total, total > 10 ? Math.ceil(total / 2) : total);
-  const rows = Math.ceil(total / perRow);
+  // Rows of at most 5 so circles stay large and clear of the pass edges (max 3 rows).
+  const rows = Math.min(3, Math.ceil(total / 5));
+  const perRow = Math.ceil(total / rows);
   const pad = 18;
   const cellW = (width - pad * 2) / perRow;
   const cellH = (height - pad) / rows;

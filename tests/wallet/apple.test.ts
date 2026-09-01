@@ -13,7 +13,8 @@ describe("buildPassJson", () => {
     expect(p.webServiceURL).toBe("https://perk.app/api/wallet/apple");
     expect(p.authenticationToken).toBe("tok123");
     expect(p.barcodes[0]).toMatchObject({ format: "PKBarcodeFormatQR", message: card.id, altText: "ABCD2345" });
-    expect(p.storeCard.primaryFields[0].value).toBe("3 / 10");
+    expect(p.storeCard.headerFields[0].value).toBe("3/10");
+    expect(p.storeCard.primaryFields).toEqual([]);
     expect(p.storeCard.auxiliaryFields).toEqual([]);
     expect(p.backgroundColor).toBe("rgb(201,106,43)");
     expect(p.storeCard.backFields.find((f) => f.key === "link")?.value).toBe(`https://perk.app/cafe/card/${card.id}`);
