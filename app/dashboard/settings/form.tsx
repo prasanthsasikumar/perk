@@ -7,6 +7,7 @@ import { Input, Select } from "@/components/ui/input";
 import { Field } from "@/components/ui/label";
 import { Card, CardTitle } from "@/components/ui/card";
 import { StampGrid } from "@/components/stamp-grid";
+import { LogoInput } from "@/components/logo-input";
 
 type ShopSettings = { name: string; brandColor: string; stampsRequired: number; rewardText: string; stampMode: "barista" | "customer"; customerScanCooldownMin: number; logoUrl: string | null };
 
@@ -32,7 +33,7 @@ export function SettingsForm({ shop }: { shop: ShopSettings }) {
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {shop.logoUrl && <img src={shop.logoUrl} alt="" className="h-11 w-11 rounded-lg border border-line bg-white object-contain" />}
-              <input id="logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="block w-full text-sm text-ink-soft file:mr-3 file:rounded-full file:border-0 file:bg-accent-soft file:px-4 file:py-2 file:text-sm file:font-medium file:text-accent" />
+              <LogoInput />
             </div>
           </Field>
         </div>

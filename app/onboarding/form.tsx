@@ -7,6 +7,7 @@ import { Input, Select } from "@/components/ui/input";
 import { Field } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { StampGrid } from "@/components/stamp-grid";
+import { LogoInput } from "@/components/logo-input";
 import { slugify } from "@/lib/slug";
 
 export function OnboardingForm({ appHost }: { appHost: string }) {
@@ -40,7 +41,7 @@ export function OnboardingForm({ appHost }: { appHost: string }) {
             </div>
           </Field>
           <Field label="Logo (optional)" htmlFor="logo" error={e.logo} hint="Square PNG or SVG works best. Shown on the wallet pass.">
-            <input id="logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="block w-full text-sm text-ink-soft file:mr-3 file:rounded-full file:border-0 file:bg-accent-soft file:px-4 file:py-2 file:text-sm file:font-medium file:text-accent" />
+            <LogoInput />
           </Field>
         </Card>
 
