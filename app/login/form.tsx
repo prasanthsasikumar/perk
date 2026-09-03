@@ -8,7 +8,7 @@ import { Field } from "@/components/ui/label";
 
 const AUTH_ERRORS: Record<string, string> = {
   Verification: "That sign-in link has expired or was already used. Request a new one.",
-  Configuration: "Sign-in isn't configured yet. Check the server logs.",
+  Configuration: "We couldn't send your sign-in email just now. Please try again in a few minutes.",
 };
 
 export function LoginForm({ authError }: { authError?: string }) {
