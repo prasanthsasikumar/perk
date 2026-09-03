@@ -24,7 +24,11 @@ export default function MarketingPage() {
               <Link href="/login" className="inline-flex h-12 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop</Link>
               <a href="#how" className="text-sm font-medium text-ink-soft underline decoration-line underline-offset-4 hover:text-ink">See how it works</a>
             </div>
-            <p className="mt-6 text-sm text-ink-muted">Free for coffee shops. No card details asked.</p>
+            <ul className="mt-7 flex flex-wrap gap-2 text-sm font-medium text-ink-soft">
+              {["Free for coffee shops", "No app for customers", "No hardware — any phone works", "Set up in 2 minutes"].map((t) => (
+                <li key={t} className="rounded-full border border-line bg-paper px-3.5 py-1.5">{t}</li>
+              ))}
+            </ul>
           </div>
           <div className="flex justify-start md:justify-end">
             <PassVisual stamps={7} total={10} name="Your café" reward="Free coffee of your choice" />
@@ -38,7 +42,7 @@ export default function MarketingPage() {
           <Stage n="02" label="Print" title="One poster on the counter." body="Print the A4 sheet from your dashboard. Customers scan it, tap once, and the card lands in their wallet — no app, no account, no form.">
             <PosterVisual />
           </Stage>
-          <Stage n="03" label="Stamp" title="Scan, or let them scan." body="Baristas scan the pass with any phone and tap +1. Or choose self-serve: customers scan a second QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
+          <Stage n="03" label="Stamp" title="Scan, or let them scan." body="Fast enough for the morning rush: baristas scan the pass with any phone and tap +1 — no terminal, no extra hardware. Or go self-serve: customers scan a counter QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
             <ScanVisual />
           </Stage>
           <Stage n="04" label="Redeem" title="Rewards stack until they're used." body="At ten stamps the card resets and a reward is banked. Staff redeem it with a tap; the ledger records who stamped what, and you can fix a missed stamp from the dashboard." last>
@@ -58,14 +62,49 @@ export default function MarketingPage() {
           </dl>
         </section>
 
+        <section className="mx-auto w-full max-w-6xl px-5 py-20" id="pricing">
+          <div className="grid gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:items-start">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Pricing</h2>
+              <p className="mt-3 max-w-prose text-ink-soft">Perk was built for a real caf&eacute; — and it&rsquo;s free for yours too. If enough shops use it, it stays free and keeps growing.</p>
+            </div>
+            <div className="rounded-3xl border border-line bg-paper p-8">
+              <div className="flex items-baseline justify-between">
+                <p className="text-5xl font-semibold tracking-tight">Free</p>
+                <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">No card details asked</span>
+              </div>
+              <ul className="mt-6 grid gap-3 text-ink-soft sm:grid-cols-2">
+                {["Unlimited customers and stamps", "Apple Wallet, Google Wallet + web card", "Both stamping modes", "Printable counter posters", "Dashboard, ledger and staff PINs", "Your logo and colours on the card"].map((t) => (
+                  <li key={t} className="flex gap-2.5"><span aria-hidden className="mt-1 h-4 w-4 shrink-0 rounded-full bg-accent" /> {t}</li>
+                ))}
+              </ul>
+              <Link href="/login" className="mt-8 inline-flex h-12 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-line">
+          <div className="mx-auto w-full max-w-6xl px-5 py-20">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Questions cafés ask us</h2>
+            <dl className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-2">
+              <Faq q="Do my customers need to install an app?" a="No. They scan your poster and tap once — the card goes straight into Apple Wallet or Google Wallet. Anyone without a wallet gets a web card that works the same way." />
+              <Faq q="Do I need a scanner or any hardware?" a="No. Any phone works. Staff open your private staff page, point the camera at the customer's pass, and tap +1. There's a typed code fallback if the camera's busy." />
+              <Faq q="Is it fast enough for the morning rush?" a="Scan, tap, done — a stamp takes about two seconds. If even that's too much, switch to self-serve mode: customers scan a counter QR themselves after buying." />
+              <Faq q="What stops people stamping themselves ten times?" a="In staff mode, only your team can stamp. In self-serve mode there's a per-card cooldown you control, and every stamp lands in a ledger so you can spot and fix anything odd." />
+              <Faq q="What if a customer loses their phone or deletes the pass?" a="Cards can be backed up with an email — one tap re-sends the link. And you can fix any card's stamps from the dashboard, with a note, any time." />
+              <Faq q="Is it really free?" a="Yes. Perk was built for a real caf&eacute; in New Zealand and it costs us little to run. If enough shops use it, it stays free and keeps growing." />
+            </dl>
+            <p className="mt-10 text-ink-soft">Question before you set up? Email <a className="font-medium text-accent underline" href="mailto:prasanth@ahlab.org">prasanth@ahlab.org</a> — or just <Link href="/login" className="font-medium text-accent underline">try it</Link>; setup takes two minutes.</p>
+          </div>
+        </section>
+
         <section className="border-t border-line bg-accent-soft/40">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-16 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">Free</span>
-              <h2 className="mt-1 text-3xl font-semibold tracking-tight">Free for coffee shops.</h2>
-              <p className="mt-2 max-w-prose text-ink-soft">Perk was built for a real caf&eacute; and it&rsquo;s free for yours too. If enough shops use it, we&rsquo;ll keep it free and keep adding features.</p>
+              <h2 className="text-3xl font-semibold tracking-tight">Your regulars, recognised.</h2>
+              <p className="mt-2 max-w-prose text-ink-soft">Print one poster today and the next coffee you pour can come with a stamp they&rsquo;ll never lose.</p>
             </div>
-            <Link href="/login" className="inline-flex h-12 shrink-0 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop →</Link>
+            <Link href="/login" className="inline-flex h-12 shrink-0 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop &rarr;</Link>
           </div>
         </section>
       </main>
@@ -92,6 +131,15 @@ function Stage({ n, label, title, body, children, last = false }: { n: string; l
       </div>
       <div className="mk-reveal flex min-w-0 md:justify-end">{children}</div>
     </section>
+  );
+}
+
+function Faq({ q, a }: { q: string; a: string }) {
+  return (
+    <div className="border-t border-line pt-5">
+      <dt className="text-lg font-semibold">{q}</dt>
+      <dd className="mt-2 max-w-prose text-ink-soft" dangerouslySetInnerHTML={{ __html: a }} />
+    </div>
   );
 }
 
