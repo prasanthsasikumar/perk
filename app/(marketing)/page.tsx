@@ -24,7 +24,7 @@ export default function MarketingPage() {
               <Link href="/login" className="inline-flex h-12 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop</Link>
               <a href="#how" className="text-sm font-medium text-ink-soft underline decoration-line underline-offset-4 hover:text-ink">See how it works</a>
             </div>
-            <p className="mt-6 text-sm text-ink-muted">Free during early access. No card details asked.</p>
+            <p className="mt-6 text-sm text-ink-muted">Free for coffee shops. No card details asked.</p>
           </div>
           <div className="flex justify-start md:justify-end">
             <PassVisual stamps={7} total={10} name="Your café" reward="Free coffee of your choice" />
@@ -61,9 +61,9 @@ export default function MarketingPage() {
         <section className="border-t border-line bg-accent-soft/40">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-16 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">Early access</span>
-              <h2 className="mt-1 text-3xl font-semibold tracking-tight">Free while we're in early access.</h2>
-              <p className="mt-2 max-w-prose text-ink-soft">We&rsquo;re building Perk with the first shops that use it. Set yours up today and you keep the early-access terms when paid plans arrive.</p>
+              <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">Free</span>
+              <h2 className="mt-1 text-3xl font-semibold tracking-tight">Free for coffee shops.</h2>
+              <p className="mt-2 max-w-prose text-ink-soft">Perk was built for a real caf&eacute; and it&rsquo;s free for yours too. If enough shops use it, we&rsquo;ll keep it free and keep adding features.</p>
             </div>
             <Link href="/login" className="inline-flex h-12 shrink-0 items-center rounded-full bg-ink px-6 text-base font-medium text-cream hover:bg-black">Set up your shop →</Link>
           </div>

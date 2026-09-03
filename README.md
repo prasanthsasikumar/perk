@@ -14,7 +14,7 @@
 
 A shop signs up with a magic link, configures its card (logo, colour, stamps, reward, stamping mode), and gets a URL like `getperk.vercel.app/your-shop`. Customers open that link, tap once, and the card is in their wallet — no app, no account. Baristas scan the pass to stamp and redeem; passes update live on the customer's phone via APNs and the Google Wallet API. Owners get a dashboard with counters, a customer list with manual adjustments, an activity ledger, and printable counter posters.
 
-Free during early access. Billing is deliberately out of scope for v1.
+Built for a real café in New Zealand — and free for any shop to use. If there's enough interest it stays free and keeps growing.
 
 ## Screenshots
 
