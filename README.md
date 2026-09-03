@@ -4,7 +4,7 @@ Digital loyalty stamp cards for coffee shops — delivered to **Apple Wallet**, 
 
 A shop signs up with a magic link, configures its card (logo, colour, stamps, reward, stamping mode), and gets `perk.app/<shop>`. Customers open that link, tap once, and the card is in their wallet — no account. Baristas scan the pass to stamp and redeem, or the shop prints a "scan to stamp" QR for self-serve with a cooldown. Stamp counts push to the wallet pass; owners get a dashboard with counters, a customer list with manual adjustments, an activity ledger, and printable posters.
 
-Free while we onboard the first ten shops. Billing is deliberately out of scope for v1.
+Free during early access. Billing is deliberately out of scope for v1.
 
 - Design spec: [`docs/superpowers/specs/2026-08-31-perk-v1-design.md`](docs/superpowers/specs/2026-08-31-perk-v1-design.md)
 - Implementation plan: [`docs/superpowers/plans/2026-08-31-perk-v1.md`](docs/superpowers/plans/2026-08-31-perk-v1.md)
