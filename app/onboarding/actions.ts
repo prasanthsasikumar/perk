@@ -7,6 +7,7 @@ import { createShopForOwner, getShopForOwnerEmail } from "@/lib/db/queries/shops
 import { isDomainError } from "@/lib/domain/errors";
 import { fieldErrors, formToObject, onboardingSchema, SETTINGS_KEYS, type FieldErrors } from "@/lib/validation/shop";
 import { isStorageConfigured, uploadLogo } from "@/lib/storage/logos";
+import { track } from "@/lib/analytics";
 
 export type OnboardingState = { errors?: FieldErrors; values?: Record<string, string> };
 
@@ -31,6 +32,7 @@ export async function completeOnboarding(_prev: OnboardingState, formData: FormD
 
   try {
     await createShopForOwner(db, ownerEmail, { ...parsed.data, logoUrl });
+    track("shop_created", { has_logo: !!logoUrl }, { shopSlug: parsed.data.slug, distinctId: ownerEmail });
   } catch (e) {
     if (isDomainError(e)) return { errors: { slug: e.message }, values };
     throw e;

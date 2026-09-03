@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireShop } from "@/lib/auth/session";
 import { signOut } from "@/lib/auth/config";
 import { DashNav } from "./nav";
+import { FeedbackLink } from "@/components/feedback-link";
 
 export default async function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   const { shop, ownerEmail } = await requireShop();
@@ -21,6 +22,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
           <form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}>
             <button className="mt-1 text-xs text-ink-soft underline">Sign out</button>
           </form>
+          <p className="mt-3"><FeedbackLink shopSlug={shop.slug} /></p>
         </div>
       </aside>
       <main className="flex-1 px-5 py-6 lg:px-10 lg:py-8">{children}</main>

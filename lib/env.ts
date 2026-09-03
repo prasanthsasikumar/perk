@@ -23,6 +23,8 @@ const schema = z.object({
   GOOGLE_WALLET_SA_EMAIL: z.string().optional(),
   GOOGLE_WALLET_SA_KEY_PEM: z.string().optional(),
   WALLET_DRY_RUN: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
 });
 
 export type Env = z.infer<typeof schema> & { WALLET_DRY_RUN_BOOL: boolean };

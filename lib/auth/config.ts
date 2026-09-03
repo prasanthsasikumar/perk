@@ -4,6 +4,8 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/lib/db/client";
 import { accounts, sessions, users, verificationTokens } from "@/lib/db/schema";
 import { getEnv } from "@/lib/env";
+import { sendMagicLinkEmail } from "@/lib/email/send";
+import { track } from "@/lib/analytics";
 
 const env = getEnv();
 
@@ -17,14 +19,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Resend({
       apiKey: env.AUTH_RESEND_KEY ?? "missing",
       from: env.AUTH_EMAIL_FROM,
-      ...(env.AUTH_RESEND_KEY
-        ? {}
-        : {
-            // Dev fallback: no email provider configured → print the link.
-            async sendVerificationRequest({ identifier, url }) {
-              console.log(`\n[perk] Magic link for ${identifier}:\n${url}\n`);
-            },
-          }),
+      // Perk-branded email with a unique subject; logs the link instead when Resend isn't configured.
+      async sendVerificationRequest({ identifier, url }) {
+        await sendMagicLinkEmail(identifier, url);
+      },
     }),
   ],
+  events: {
+    signIn({ user, isNewUser }) {
+      if (user.email) track("owner_signed_in", { new_user: isNewUser ?? false }, { distinctId: user.email.toLowerCase() });
+    },
+  },
 });

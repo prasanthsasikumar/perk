@@ -28,6 +28,8 @@
     "next-auth": "^5.0.0-beta.32",
     "passkit-generator": "^3.5.8",
     "postgres": "^3.4.9",
+    "posthog-js": "^1.425.1",
+    "posthog-node": "^5.51.6",
     "qrcode": "^1.5.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",

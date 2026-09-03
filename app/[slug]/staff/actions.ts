@@ -10,6 +10,7 @@ import { scheduleWalletUpdate } from "@/lib/wallet";
 import { clientIp, grantStaffAccess, hasStaffAccess, revokeStaffAccess } from "@/lib/staff/auth";
 import { toCardView, type CardView } from "@/lib/staff/card-view";
 import type { Shop } from "@/lib/db/schema";
+import { track } from "@/lib/analytics";
 
 export type ActionResult = CardView | { error: string };
 export type PinState = { error?: string };
@@ -50,7 +51,10 @@ export async function staffStamp(slug: string, cardId: string): Promise<ActionRe
   const shop = await requireStaffShop(slug);
   try {
     const r = await stampCard(db, shop.id, cardId, { source: "barista_scan", actor: "staff" });
-    if (!r.duplicate) scheduleWalletUpdate(shop, r.card);
+    if (!r.duplicate) {
+      scheduleWalletUpdate(shop, r.card);
+      track("card_stamped", { reward_earned: r.rewardEarned }, { shopSlug: slug });
+    }
     return toCardView(shop, r.card, { duplicate: r.duplicate, rewardEarned: r.rewardEarned });
   } catch (e) {
     if (isDomainError(e)) return { error: e.message };
@@ -63,6 +67,7 @@ export async function staffRedeem(slug: string, cardId: string): Promise<ActionR
   try {
     const r = await redeemReward(db, shop.id, cardId, { source: "barista_scan", actor: "staff" });
     scheduleWalletUpdate(shop, r.card);
+    track("reward_redeemed", {}, { shopSlug: slug });
     return toCardView(shop, r.card);
   } catch (e) {
     if (isDomainError(e)) return { error: e.message };
