@@ -17,7 +17,7 @@ export default async function StaffPage({ params }: PageProps<"/[slug]/staff">) 
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-5 py-6">
       <ShopHeader shop={publicShop(shop)} subtitle="Staff · stamp & redeem" />
-      <div className="mt-6 flex-1">{ok ? <Scanner slug={slug} brandColor={shop.brandColor} /> : <PinForm slug={slug} />}</div>
+      <div className="mt-6 flex-1">{ok ? <Scanner slug={slug} brandColor={shop.brandColor} stampStyle={shop.stampStyle} /> : <PinForm slug={slug} />}</div>
       <p className="mt-6 text-center"><FeedbackLink shopSlug={slug} className="text-xs text-ink-muted underline" /></p>
     </main>
   );

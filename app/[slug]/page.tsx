@@ -10,6 +10,7 @@ import { StampGrid } from "@/components/stamp-grid";
 import { WalletButtons } from "@/components/wallet-buttons";
 import { ShopHeader } from "./shop-header";
 import { issueApple, issueGoogle, issueWeb } from "./actions";
+import { bonusStampPositions, rewardTiers } from "@/lib/domain/tiers";
 
 export default async function ShopLandingPage({ params, searchParams }: PageProps<"/[slug]">) {
   const { slug } = await params;
@@ -22,6 +23,7 @@ export default async function ShopLandingPage({ params, searchParams }: PageProp
   const token = typeof sp.t === "string" ? sp.t : undefined;
   const error = typeof sp.error === "string" ? sp.error : undefined;
 
+  const tiers = rewardTiers(shop);
   const cookieCard = await readCardCookie(shop.id);
   const existing = cookieCard ? await getCard(db, shop.id, cookieCard) : null;
 
@@ -36,8 +38,9 @@ export default async function ShopLandingPage({ params, searchParams }: PageProp
       <section className="mt-8 rounded-3xl p-6 text-white shadow-xl" style={{ background: shop.brandColor }}>
         <p className="text-sm/5 opacity-90">Collect {shop.stampsRequired} stamps and get</p>
         <p className="mt-1 text-2xl font-semibold leading-tight">{shop.rewardText}</p>
+        {tiers.length > 1 && <p className="mt-2 text-sm opacity-90">Plus along the way: {tiers.slice(0, -1).map((t) => `${t.reward} at ${t.stamps} stamps`).join(", ")}</p>}
         <div className="mt-6 rounded-2xl bg-white p-4 text-ink">
-          <StampGrid stamps={existing?.stamps ?? 0} total={shop.stampsRequired} color={shop.brandColor} size="sm" />
+          <StampGrid stamps={existing?.stamps ?? 0} total={shop.stampsRequired} color={shop.brandColor} size="sm" style={shop.stampStyle} milestones={bonusStampPositions(shop)} />
           <p className="mt-3 text-xs text-ink-soft">
             {existing ? `${existing.stamps} / ${shop.stampsRequired} stamps` : "Your card starts empty — first stamp with your next coffee."}
           </p>
@@ -66,7 +69,7 @@ export default async function ShopLandingPage({ params, searchParams }: PageProp
       <footer className="mt-auto pt-10 text-center text-xs text-ink-muted">
         {shop.stampMode === "barista" ? "Show your card at the counter to get stamped." : "Scan the QR at the counter after each purchase to stamp your card."}
         <br />
-        Powered by <Link href="/" className="underline">Perk</Link>
+        Powered by <Link href="/" className="underline">Perk</Link> · <Link href="/privacy" className="underline">Privacy</Link>
       </footer>
     </main>
   );

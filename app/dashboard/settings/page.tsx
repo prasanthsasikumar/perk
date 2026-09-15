@@ -23,7 +23,7 @@ export default async function SettingsPage() {
         <p className="mt-1 text-sm text-ink-muted">Fixed once created — it&rsquo;s printed on your posters.</p>
       </Card>
 
-      <SettingsForm shop={{ name: shop.name, brandColor: shop.brandColor, stampsRequired: shop.stampsRequired, rewardText: shop.rewardText, stampMode: shop.stampMode, customerScanCooldownMin: shop.customerScanCooldownMin, logoUrl: shop.logoUrl }} />
+      <SettingsForm shop={{ name: shop.name, brandColor: shop.brandColor, stampsRequired: shop.stampsRequired, rewardText: shop.rewardText, rewardTiers: shop.rewardTiers, stampStyle: shop.stampStyle, stampMode: shop.stampMode, customerScanCooldownMin: shop.customerScanCooldownMin, logoUrl: shop.logoUrl }} />
 
       <Card className="space-y-4">
         <CardTitle>Staff access</CardTitle>

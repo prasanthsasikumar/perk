@@ -3,8 +3,8 @@ import { generateKeyPair, exportPKCS8, jwtVerify } from "jose";
 import { buildLoyaltyClass, buildLoyaltyObject, buildSaveJwt } from "@/lib/wallet/google";
 import type { Card, Shop } from "@/lib/db/schema";
 
-const shop = { id: "shop-1", slug: "cafe", name: "Café", brandColor: "#c96a2b", stampsRequired: 10, rewardText: "Free coffee", logoUrl: null } as Shop;
-const card = { id: "card-1", shortCode: "ABCD2345", stamps: 3, rewardsAvailable: 1 } as Card;
+const shop = { id: "shop-1", slug: "cafe", name: "Café", brandColor: "#c96a2b", stampsRequired: 10, rewardText: "Free coffee", rewardTiers: [], stampStyle: "check", logoUrl: null } as unknown as Shop;
+const card = { id: "card-1", shortCode: "ABCD2345", stamps: 3, pendingRewards: ["Free coffee"] } as Card;
 
 describe("google wallet builders", () => {
   it("class", () => {
@@ -20,6 +20,7 @@ describe("google wallet builders", () => {
     expect(o.classId).toBe("ISS.shop-1");
     expect(o.loyaltyPoints.balance.string).toBe("3 / 10");
     expect(o.secondaryLoyaltyPoints.balance.int).toBe(1);
+    expect(o.textModulesData).toEqual([{ id: "reward", header: "Reward", body: "10 stamps: Free coffee" }, { id: "ready", header: "Ready to redeem", body: "Free coffee" }]);
     expect(o.barcode).toEqual({ type: "QR_CODE", value: "card-1", alternateText: "ABCD2345" });
     expect(o.linksModuleData.uris[0].uri).toBe("https://perk.app/cafe/card/card-1");
   });

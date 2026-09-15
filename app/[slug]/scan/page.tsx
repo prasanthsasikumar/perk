@@ -13,6 +13,8 @@ import { scheduleWalletUpdate } from "@/lib/wallet";
 import { StampGrid } from "@/components/stamp-grid";
 import { ShopHeader } from "../shop-header";
 import { buttonClass } from "@/components/ui/button";
+import { pendingRewardsLabel } from "@/components/reward-tiers";
+import { bonusStampPositions } from "@/lib/domain/tiers";
 
 export const metadata = { title: "Stamp", robots: { index: false } };
 
@@ -67,12 +69,12 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
     );
   }
 
-  type Outcome = { kind: "ok"; stamps: number; rewardsAvailable: number; rewardEarned: boolean } | { kind: "cooldown"; retryAt: Date } | { kind: "error"; message: string };
+  type Outcome = { kind: "ok"; stamps: number; pendingRewards: string[]; earned: string | null } | { kind: "cooldown"; retryAt: Date } | { kind: "error"; message: string };
   let outcome: Outcome;
   try {
     const r = await stampCard(db, shop.id, card.id, { source: "customer_scan" });
     scheduleWalletUpdate(shop, r.card);
-    outcome = { kind: "ok", stamps: r.card.stamps, rewardsAvailable: r.card.rewardsAvailable, rewardEarned: Boolean(r.rewardEarned) };
+    outcome = { kind: "ok", stamps: r.card.stamps, pendingRewards: r.card.pendingRewards, earned: r.rewardsEarned?.[0] ?? null };
   } catch (e) {
     if (e instanceof CooldownActive) outcome = { kind: "cooldown", retryAt: e.retryAt };
     else if (isDomainError(e)) outcome = { kind: "error", message: e.message };
@@ -94,11 +96,11 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
   return (
     <Shell shop={pub}>
       <section className="rounded-3xl p-6 text-white shadow-xl" style={{ background: shop.brandColor }}>
-        <p className="text-sm opacity-90">{outcome.rewardEarned ? "You did it!" : "Stamped!"}</p>
-        <p className="mt-1 text-2xl font-semibold leading-tight">{outcome.rewardEarned ? `Reward unlocked: ${shop.rewardText}` : `${outcome.stamps} of ${shop.stampsRequired} stamps`}</p>
+        <p className="text-sm opacity-90">{outcome.earned ? "You did it!" : "Stamped!"}</p>
+        <p className="mt-1 text-2xl font-semibold leading-tight">{outcome.earned ? `Reward unlocked: ${outcome.earned}` : `${outcome.stamps} of ${shop.stampsRequired} stamps`}</p>
         <div className="mt-5 rounded-2xl bg-white p-4 text-ink">
-          <StampGrid stamps={outcome.stamps} total={shop.stampsRequired} color={shop.brandColor} />
-          {outcome.rewardsAvailable > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>{outcome.rewardsAvailable} reward{outcome.rewardsAvailable > 1 ? "s" : ""} ready — show the barista to redeem.</p>}
+          <StampGrid stamps={outcome.stamps} total={shop.stampsRequired} color={shop.brandColor} style={shop.stampStyle} milestones={bonusStampPositions(shop)} />
+          {outcome.pendingRewards.length > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>Ready to redeem: {pendingRewardsLabel(outcome.pendingRewards)} — show the barista.</p>}
         </div>
       </section>
       <div className="mt-6 text-center">

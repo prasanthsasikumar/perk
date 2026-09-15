@@ -6,6 +6,7 @@ import { db } from "@/lib/db/client";
 import { setGoogleClassId } from "@/lib/db/queries/shops";
 import { setGoogleObjectId } from "@/lib/db/queries/cards";
 import type { PassArtifact, WalletProvider } from "./types";
+import { describeTiers, summarizeRewards } from "@/lib/domain/tiers";
 
 const API = "https://walletobjects.googleapis.com/walletobjects/v1";
 const SCOPE = "https://www.googleapis.com/auth/wallet_object.issuer";
@@ -43,9 +44,12 @@ export function buildLoyaltyObject(shop: Shop, card: Card, issuerId: string, app
     accountId: card.shortCode,
     accountName: "Perk member",
     loyaltyPoints: { label: "Stamps", balance: { string: `${card.stamps} / ${shop.stampsRequired}` } },
-    secondaryLoyaltyPoints: { label: "Rewards ready", balance: { int: card.rewardsAvailable } },
+    secondaryLoyaltyPoints: { label: "Rewards ready", balance: { int: card.pendingRewards.length } },
     barcode: { type: "QR_CODE", value: card.id, alternateText: card.shortCode },
-    textModulesData: [{ id: "reward", header: "Reward", body: shop.rewardText }],
+    textModulesData: [
+      { id: "reward", header: "Reward", body: describeTiers(shop) },
+      ...(card.pendingRewards.length > 0 ? [{ id: "ready", header: "Ready to redeem", body: summarizeRewards(card.pendingRewards) }] : []),
+    ],
     linksModuleData: { uris: [{ id: "card", uri: `${appUrl}/${shop.slug}/card/${card.id}`, description: "Open my card" }] },
   };
 }

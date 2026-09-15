@@ -53,22 +53,23 @@ export async function staffStamp(slug: string, cardId: string): Promise<ActionRe
     const r = await stampCard(db, shop.id, cardId, { source: "barista_scan", actor: "staff" });
     if (!r.duplicate) {
       scheduleWalletUpdate(shop, r.card);
-      track("card_stamped", { reward_earned: r.rewardEarned }, { shopSlug: slug });
+      track("card_stamped", { reward_earned: r.rewardEarned, reward: r.rewardsEarned?.[0] ?? null }, { shopSlug: slug });
     }
-    return toCardView(shop, r.card, { duplicate: r.duplicate, rewardEarned: r.rewardEarned });
+    return toCardView(shop, r.card, { duplicate: r.duplicate, rewardEarned: r.rewardEarned, rewardsEarned: r.rewardsEarned });
   } catch (e) {
     if (isDomainError(e)) return { error: e.message };
     throw e;
   }
 }
 
-export async function staffRedeem(slug: string, cardId: string): Promise<ActionResult> {
+/** Hand over one banked reward; `reward` picks which label when several kinds are banked. */
+export async function staffRedeem(slug: string, cardId: string, reward?: string): Promise<ActionResult> {
   const shop = await requireStaffShop(slug);
   try {
-    const r = await redeemReward(db, shop.id, cardId, { source: "barista_scan", actor: "staff" });
+    const r = await redeemReward(db, shop.id, cardId, { source: "barista_scan", actor: "staff" }, new Date(), reward);
     scheduleWalletUpdate(shop, r.card);
-    track("reward_redeemed", {}, { shopSlug: slug });
-    return toCardView(shop, r.card);
+    track("reward_redeemed", { reward: r.redeemed ?? null }, { shopSlug: slug });
+    return toCardView(shop, r.card, { redeemed: r.redeemed });
   } catch (e) {
     if (isDomainError(e)) return { error: e.message };
     throw e;

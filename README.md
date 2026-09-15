@@ -33,6 +33,7 @@ Built for a real café in New Zealand — and free for any shop to use. If there
 - **Staff** open a PIN-gated scanner on any phone: scan the pass (or type its short code), tap **+1 stamp** or **Redeem**. Every stamp is pushed to the customer's wallet pass within seconds.
 - Shops can instead choose **customer self-scan**: a signed static QR that customers scan after buying, with a per-card cooldown.
 - Every stamp, reward, redemption and adjustment is an append-only event with a source and timestamp — a ledger, not a counter.
+- Rewards can be tiered: bonus rewards part-way along the card (e.g. a free coffee at 5 stamps) plus the final reward that resets the card (e.g. a gelato at 10). Banked rewards are redeemed by name.
 
 ## Stack
 

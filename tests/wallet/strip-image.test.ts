@@ -30,3 +30,17 @@ describe("strip image", () => {
     expect(png.length).toBeGreaterThan(1000);
   });
 });
+
+describe("strip templates and milestones", () => {
+  it("draws a dashed ring on milestone cells", () => {
+    const svg = renderStripSvg({ stamps: 0, total: 10, color: "#c96a2b", milestones: [5] });
+    expect(svg.match(/stroke-dasharray/g)).toHaveLength(1);
+    expect(svg.match(/<circle/g)).toHaveLength(11);
+  });
+  it("uses the chosen icon template", () => {
+    const cup = renderStripSvg({ stamps: 2, total: 5, color: "#000000", style: "cup" });
+    expect(cup.match(/<path/g)).toHaveLength(4); // two paths per cup
+    const star = renderStripSvg({ stamps: 2, total: 5, color: "#000000", style: "star" });
+    expect(star.match(/fill="#ffffff"\/>/g)!.length).toBeGreaterThanOrEqual(2);
+  });
+});

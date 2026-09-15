@@ -14,7 +14,9 @@ describe("schema", () => {
     expect(shop.customerScanCooldownMin).toBe(15);
     const [card] = await t.db.insert(cards).values({ shopId: shop.id, shortCode: "ABCD2345", appleAuthToken: "tok" }).returning();
     expect(card.stamps).toBe(0);
-    expect(card.rewardsAvailable).toBe(0);
+    expect(card.pendingRewards).toEqual([]);
+    expect(shop.rewardTiers).toEqual([]);
+    expect(shop.stampStyle).toBe("check");
   });
 
   it("enforces unique short_code per shop", async () => {

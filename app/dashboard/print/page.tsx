@@ -4,6 +4,7 @@ import { getEnv } from "@/lib/env";
 import { buildScanUrl } from "@/lib/security/hmac";
 import { Qr } from "@/components/qr";
 import { PrintButton } from "./print-button";
+import { rewardTiers } from "@/lib/domain/tiers";
 import "./print.css";
 
 export const metadata = { title: "Print" };
@@ -18,6 +19,7 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
   const landingUrl = `${appUrl}/${shop.slug}`;
   const scanUrl = buildScanUrl(appUrl, shop);
   const staffUrl = `${appUrl}/${shop.slug}/staff`;
+  const tiers = rewardTiers(shop);
 
   if (sheet) {
     return (
@@ -27,10 +29,10 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
           <PrintButton />
         </div>
         {sheet === "landing" && (
-          <Poster color={shop.brandColor} title={`Get a free ${shop.rewardText.toLowerCase().replace(/^free\s+/, "")}`} subtitle={`Collect ${shop.stampsRequired} stamps at ${shop.name}`} qr={landingUrl} footer="Scan to add your stamp card to Apple Wallet or Google Wallet. No app, no sign-up." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
+          <Poster color={shop.brandColor} title={`Get a free ${shop.rewardText.toLowerCase().replace(/^free\s+/, "")}`} subtitle={tiers.length > 1 ? `${tiers.map((t) => `${t.stamps} stamps = ${t.reward}`).join(" · ")} at ${shop.name}` : `Collect ${shop.stampsRequired} stamps at ${shop.name}`} qr={landingUrl} footer="Scan to add your stamp card to Apple Wallet or Google Wallet. No app, no sign-up." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
         )}
         {sheet === "scan" && (
-          <Poster color={shop.brandColor} title="Scan to stamp" subtitle={`One stamp per visit · ${shop.stampsRequired} stamps = ${shop.rewardText}`} qr={scanUrl} footer="Bought a coffee? Scan this with your phone camera to add a stamp to your card." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
+          <Poster color={shop.brandColor} title="Scan to stamp" subtitle={`One stamp per visit · ${tiers.map((t) => `${t.stamps} stamps = ${t.reward}`).join(" · ")}`} qr={scanUrl} footer="Bought a coffee? Scan this with your phone camera to add a stamp to your card." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
         )}
         {sheet === "staff" && (
           <div className="rounded-3xl border border-line bg-paper p-10 text-ink">
@@ -40,6 +42,7 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
               <li>Open <span className="font-mono">{staffUrl}</span> on any phone.</li>
               <li>Enter the PIN <span className="font-mono text-2xl tracking-[0.3em]">{shop.staffPin}</span> (stays signed in 30 days).</li>
               <li>Scan the customer&rsquo;s pass, or type their card code. Tap <b>+1 stamp</b> or <b>Redeem</b>.</li>
+              <li className="text-base text-ink-soft">Camera blocked? Tap <b>Take a photo of the pass</b> instead. On Brave, turn Shields down for this site first.</li>
             </ol>
             <div className="mt-8 flex items-center gap-6">
               <Qr value={staffUrl} size={140} label="Staff page QR" />

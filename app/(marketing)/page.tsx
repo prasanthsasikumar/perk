@@ -112,7 +112,7 @@ export default function MarketingPage() {
       <footer className="border-t border-line">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm text-ink-muted">
           <span>Perk · digital stamp cards for coffee shops</span>
-          <span className="flex gap-4"><Link href="/login" className="hover:text-ink">Sign in</Link><a href="https://github.com/prasanthsasikumar/perk" className="hover:text-ink" rel="noreferrer">Source</a></span>
+          <span className="flex gap-4"><Link href="/privacy" className="hover:text-ink">Privacy</Link><Link href="/terms" className="hover:text-ink">Terms</Link><Link href="/login" className="hover:text-ink">Sign in</Link><a href="https://github.com/prasanthsasikumar/perk" className="hover:text-ink" rel="noreferrer">Source</a></span>
         </div>
       </footer>
     </div>

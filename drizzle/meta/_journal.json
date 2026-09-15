@@ -8,6 +8,20 @@
       "when": 1788184145613,
       "tag": "0000_ordinary_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789501869899,
+      "tag": "0001_reward_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789501870372,
+      "tag": "0002_drop_rewards_available",
+      "breakpoints": true
     }
   ]
 }

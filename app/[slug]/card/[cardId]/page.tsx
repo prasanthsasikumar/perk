@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { ShopHeader } from "../../shop-header";
 import { issueApple, issueGoogle } from "../../actions";
 import { BackupForm, ClaimCookie } from "./client";
+import { RewardTiersList, pendingRewardsLabel } from "@/components/reward-tiers";
+import { bonusStampPositions } from "@/lib/domain/tiers";
 
 export async function generateMetadata({ params }: PageProps<"/[slug]/card/[cardId]">) {
   const { slug, cardId } = await params;
@@ -42,15 +44,15 @@ export default async function WebCardPage({ params, searchParams }: PageProps<"/
             <p className="text-sm opacity-90">Stamps</p>
             <p className="text-3xl font-semibold leading-none">{card.stamps} <span className="text-lg opacity-80">/ {shop.stampsRequired}</span></p>
           </div>
-          {card.rewardsAvailable > 0 && (
-            <span className="rounded-full bg-white px-3 py-1 text-sm font-semibold" style={{ color: shop.brandColor }}>
-              {card.rewardsAvailable} reward{card.rewardsAvailable > 1 ? "s" : ""} ready 🎉
+          {card.pendingRewards.length > 0 && (
+            <span className="rounded-full bg-white px-3 py-1 text-right text-sm font-semibold" style={{ color: shop.brandColor }}>
+              Ready: {pendingRewardsLabel(card.pendingRewards)} 🎉
             </span>
           )}
         </div>
         <div className="mt-5 rounded-2xl bg-white p-4 text-ink">
-          <StampGrid stamps={card.stamps} total={shop.stampsRequired} color={shop.brandColor} />
-          <p className="mt-3 text-sm text-ink-soft">Reward: {shop.rewardText}</p>
+          <StampGrid stamps={card.stamps} total={shop.stampsRequired} color={shop.brandColor} style={shop.stampStyle} milestones={bonusStampPositions(shop)} />
+          <RewardTiersList shop={shop} className="mt-3" />
         </div>
       </section>
 
@@ -78,7 +80,7 @@ export default async function WebCardPage({ params, searchParams }: PageProps<"/
       </section>
 
       <footer className="mt-auto pt-10 text-center text-xs text-ink-muted">
-        <Link href={`/${slug}`} className="underline">{shop.name}</Link> · Powered by <Link href="/" className="underline">Perk</Link>
+        <Link href={`/${slug}`} className="underline">{shop.name}</Link> · Powered by <Link href="/" className="underline">Perk</Link> · <Link href="/privacy" className="underline">Privacy</Link>
       </footer>
     </main>
   );

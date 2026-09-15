@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StampGrid } from "@/components/stamp-grid";
 import { EventBadge, SOURCE_LABELS } from "@/components/event-badge";
-import type { EventType } from "@/lib/db/schema";
+import type { EventType, StampStyle } from "@/lib/db/schema";
+import { pendingRewardsLabel } from "@/components/reward-tiers";
 
-export type RowCard = { id: string; shortCode: string; email: string | null; stamps: number; rewardsAvailable: number; lastStampedAt: string | null; createdAt: string };
+export type RowCard = { id: string; shortCode: string; email: string | null; stamps: number; pendingRewards: string[]; lastStampedAt: string | null; createdAt: string };
+export type RowShop = { stampsRequired: number; brandColor: string; stampStyle: StampStyle; milestones: number[] };
 type Hist = Awaited<ReturnType<typeof cardHistory>>;
 
-export function CustomerRow({ card, stampsRequired, brandColor }: { card: RowCard; stampsRequired: number; brandColor: string }) {
+export function CustomerRow({ card, shop }: { card: RowCard; shop: RowShop }) {
+  const { stampsRequired } = shop;
   const [open, setOpen] = useState(false);
   const last = card.lastStampedAt ? new Date(card.lastStampedAt) : null;
   return (
@@ -20,14 +23,14 @@ export function CustomerRow({ card, stampsRequired, brandColor }: { card: RowCar
         <td className="px-4 py-3 font-mono">{card.shortCode}</td>
         <td className="px-4 py-3 text-ink-soft">{card.email ?? <span className="text-ink-muted">—</span>}</td>
         <td className="px-4 py-3 tabular-nums">{card.stamps} / {stampsRequired}</td>
-        <td className="px-4 py-3 tabular-nums">{card.rewardsAvailable > 0 ? <span className="font-medium text-ok">{card.rewardsAvailable} ready</span> : "0"}</td>
+        <td className="px-4 py-3 tabular-nums">{card.pendingRewards.length > 0 ? <span className="font-medium text-ok">{pendingRewardsLabel(card.pendingRewards)}</span> : "0"}</td>
         <td className="px-4 py-3 text-ink-soft">{last ? last.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : <span className="text-ink-muted">never</span>}</td>
         <td className="px-4 py-3 text-right text-ink-muted">{open ? "▴" : "▾"}</td>
       </tr>
       {open && (
         <tr>
           <td colSpan={6} className="bg-cream/60 px-4 py-4">
-            <Drawer card={card} stampsRequired={stampsRequired} brandColor={brandColor} />
+            <Drawer card={card} shop={shop} />
           </td>
         </tr>
       )}
@@ -35,7 +38,8 @@ export function CustomerRow({ card, stampsRequired, brandColor }: { card: RowCar
   );
 }
 
-function Drawer({ card, stampsRequired, brandColor }: { card: RowCard; stampsRequired: number; brandColor: string }) {
+function Drawer({ card, shop }: { card: RowCard; shop: RowShop }) {
+  const { stampsRequired, brandColor } = shop;
   const [hist, setHist] = useState<Hist | null>(null);
   const [state, action, pending] = useActionState<AdjustState, FormData>(adjustCard, {});
   const [delta, setDelta] = useState(1);
@@ -48,7 +52,7 @@ function Drawer({ card, stampsRequired, brandColor }: { card: RowCard; stampsReq
           <ul className="mt-2 divide-y divide-line rounded-xl border border-line bg-paper">
             {hist.map((e) => (
               <li key={e.id} className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 text-sm">
-                <div className="flex items-center gap-2"><EventBadge type={e.type as EventType} />{e.type === "adjust" && <span className="tabular-nums">{e.delta > 0 ? `+${e.delta}` : e.delta}</span>}{e.note && <span className="text-ink-soft">“{e.note}”</span>}</div>
+                <div className="flex items-center gap-2"><EventBadge type={e.type as EventType} />{e.type === "adjust" && <span className="tabular-nums">{e.delta > 0 ? `+${e.delta}` : e.delta}</span>}{e.note && <span className="text-ink-soft">{e.type === "adjust" ? `“${e.note}”` : e.note}</span>}</div>
                 <span className="text-ink-muted">{SOURCE_LABELS[e.source] ?? e.source}{e.actor && e.source === "owner_adjust" ? ` (${e.actor})` : ""} · {new Date(e.at).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
               </li>
             ))}
@@ -57,7 +61,7 @@ function Drawer({ card, stampsRequired, brandColor }: { card: RowCard; stampsReq
       </div>
       <form action={action} className="space-y-3 rounded-xl border border-line bg-paper p-4">
         <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">Fix stamps</p>
-        <StampGrid stamps={card.stamps} total={stampsRequired} color={brandColor} size="sm" />
+        <StampGrid stamps={card.stamps} total={stampsRequired} color={brandColor} size="sm" style={shop.stampStyle} milestones={shop.milestones} />
         <input type="hidden" name="cardId" value={card.id} />
         <input type="hidden" name="delta" value={delta} />
         <div className="flex items-center gap-2">

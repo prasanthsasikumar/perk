@@ -23,6 +23,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
           <LoginForm authError={error} />
         </div>
         <p className="mt-8 text-sm text-ink-muted">New here? Use the same form — your shop is created after you sign in.</p>
+        <p className="mt-2 text-sm text-ink-muted">By signing in you agree to our <Link href="/terms" className="underline">terms</Link> and <Link href="/privacy" className="underline">privacy policy</Link>.</p>
       </div>
     </main>
   );

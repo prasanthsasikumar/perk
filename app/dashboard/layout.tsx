@@ -23,6 +23,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
             <button className="mt-1 text-xs text-ink-soft underline">Sign out</button>
           </form>
           <p className="mt-3"><FeedbackLink shopSlug={shop.slug} /></p>
+          <p className="mt-2 text-xs text-ink-muted"><Link href="/privacy" className="hover:text-ink">Privacy</Link> · <Link href="/terms" className="hover:text-ink">Terms</Link></p>
         </div>
       </aside>
       <main className="flex-1 px-5 py-6 lg:px-10 lg:py-8">{children}</main>

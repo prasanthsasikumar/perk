@@ -5,6 +5,7 @@ import type { PassArtifact, WalletProvider } from "./types";
 import { defaultAsset, shopLogoSet } from "./assets";
 import { renderStripPng } from "./strip-image";
 import { pushToCard } from "./apns";
+import { bonusStampPositions, describeTiers, summarizeRewards } from "@/lib/domain/tiers";
 
 export function hexToRgb(hex: string): string {
   const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex);
@@ -36,12 +37,12 @@ export function buildPassJson(shop: Shop, card: Card, { appUrl, passTypeId, team
       headerFields: [{ key: "stamps", label: "STAMPS", value: `${card.stamps}/${shop.stampsRequired}` }],
       primaryFields: [],
       secondaryFields: [{ key: "reward", label: "REWARD", value: shop.rewardText }],
-      auxiliaryFields: card.rewardsAvailable > 0 ? [{ key: "ready", label: "READY TO REDEEM", value: `${card.rewardsAvailable}` }] : [],
+      auxiliaryFields: card.pendingRewards.length > 0 ? [{ key: "ready", label: "READY TO REDEEM", value: summarizeRewards(card.pendingRewards) }] : [],
       backFields: [
         { key: "shop", label: "Shop", value: shop.name },
         { key: "code", label: "Card code", value: card.shortCode },
         { key: "link", label: "Open my card", value: `${appUrl}/${shop.slug}/card/${card.id}` },
-        { key: "how", label: "How it works", value: `Collect ${shop.stampsRequired} stamps to earn: ${shop.rewardText}. Show this pass at the counter.` },
+        { key: "how", label: "How it works", value: `${describeTiers(shop)}. Show this pass at the counter.` },
       ],
     },
   };
@@ -54,7 +55,7 @@ export function isAppleConfigured(): boolean {
 
 async function passFiles(shop: Shop, card: Card): Promise<Record<string, Buffer>> {
   const logos = await shopLogoSet(shop.logoUrl);
-  const stripOpts = { stamps: card.stamps, total: shop.stampsRequired, color: shop.brandColor };
+  const stripOpts = { stamps: card.stamps, total: shop.stampsRequired, color: shop.brandColor, style: shop.stampStyle, milestones: bonusStampPositions(shop) };
   return {
     "icon.png": defaultAsset("icon.png"),
     "icon@2x.png": defaultAsset("icon@2x.png"),

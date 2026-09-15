@@ -1,10 +1,20 @@
 import {
-  pgTable, text, uuid, integer, timestamp, bigserial, primaryKey, uniqueIndex, index,
+  pgTable, text, uuid, integer, timestamp, bigserial, primaryKey, uniqueIndex, index, jsonb,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 export const STAMP_MODES = ["barista", "customer"] as const;
 export type StampMode = (typeof STAMP_MODES)[number];
+
+/** Visual template for the stamp cells (web card, staff scanner, Apple Wallet strip). */
+export const STAMP_STYLES = ["check", "star", "heart", "cup"] as const;
+export type StampStyle = (typeof STAMP_STYLES)[number];
+
+/**
+ * A bonus reward banked part-way along the card, e.g. { stamps: 5, reward: "Free coffee" }
+ * on a 10-stamp card whose final reward (stamps_required / reward_text) is a gelato.
+ */
+export type RewardTier = { stamps: number; reward: string };
 
 export const shops = pgTable("shops", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -14,6 +24,8 @@ export const shops = pgTable("shops", {
   brandColor: text("brand_color").notNull().default("#1f1f1f"),
   stampsRequired: integer("stamps_required").notNull().default(10),
   rewardText: text("reward_text").notNull().default("Free coffee"),
+  rewardTiers: jsonb("reward_tiers").$type<RewardTier[]>().notNull().default([]),
+  stampStyle: text("stamp_style", { enum: STAMP_STYLES }).notNull().default("check"),
   stampMode: text("stamp_mode", { enum: STAMP_MODES }).notNull().default("barista"),
   customerScanCooldownMin: integer("customer_scan_cooldown_min").notNull().default(15),
   programType: text("program_type", { enum: ["stamps"] }).notNull().default("stamps"),
@@ -47,7 +59,8 @@ export const cards = pgTable(
     shopId: uuid("shop_id").notNull().references(() => shops.id, { onDelete: "cascade" }),
     shortCode: text("short_code").notNull(),
     stamps: integer("stamps").notNull().default(0),
-    rewardsAvailable: integer("rewards_available").notNull().default(0),
+    /** Banked, unredeemed reward labels in the order they were earned. */
+    pendingRewards: jsonb("pending_rewards").$type<string[]>().notNull().default([]),
     email: text("email"),
     appleAuthToken: text("apple_auth_token").notNull(),
     googleObjectId: text("google_object_id"),

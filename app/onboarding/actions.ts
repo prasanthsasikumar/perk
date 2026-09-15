@@ -5,7 +5,7 @@ import { requireOwnerEmail } from "@/lib/auth/session";
 import { db } from "@/lib/db/client";
 import { createShopForOwner, getShopForOwnerEmail } from "@/lib/db/queries/shops";
 import { isDomainError } from "@/lib/domain/errors";
-import { fieldErrors, formToObject, onboardingSchema, SETTINGS_KEYS, type FieldErrors } from "@/lib/validation/shop";
+import { fieldErrors, formToObject, onboardingSchema, ONBOARDING_KEYS, type FieldErrors } from "@/lib/validation/shop";
 import { isStorageConfigured, uploadLogo } from "@/lib/storage/logos";
 import { track } from "@/lib/analytics";
 
@@ -15,7 +15,7 @@ export async function completeOnboarding(_prev: OnboardingState, formData: FormD
   const ownerEmail = await requireOwnerEmail();
   if (await getShopForOwnerEmail(db, ownerEmail)) redirect("/dashboard");
 
-  const values = formToObject(formData, [...SETTINGS_KEYS, "slug"]);
+  const values = formToObject(formData, [...ONBOARDING_KEYS, "slug"]);
   const parsed = onboardingSchema.safeParse(values);
   if (!parsed.success) return { errors: fieldErrors(parsed.error), values };
 

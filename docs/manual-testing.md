@@ -47,3 +47,21 @@ Things that need a real device or a real third-party account. Run before each re
 ## Dashboard
 - [ ] Customers search by code and by email; adjust −2 with a note → activity shows "Adjusted −2" with owner email.
 - [ ] Lower stamps-required below a card's progress → that card is clamped to N−1.
+
+## Brave browser (staff scanner)
+- [ ] Open `/<slug>/staff` in Brave on Android and iOS with Shields up (default): either the live camera scans, or the panel explains that Shields blocks the camera and offers **Retry camera** and **Take a photo of the pass**.
+- [ ] "Take a photo of the pass" opens the native camera; a photo of an Apple or Google pass QR resolves the card.
+- [ ] Typing a card code while the camera preview is open does not restart the camera.
+
+## Tiered rewards
+- [ ] Settings → add a bonus reward (e.g. 5 stamps: Free coffee on a 10-stamp card ending in Free gelato) → Save. Landing page, web card, poster and passes list both tiers; milestone cell shows a ring.
+- [ ] Stamp a card to 5 → "Reward earned: Free coffee", card keeps counting (5 / 10). Stamp to 10 → "Reward earned: Free gelato", card resets, both rewards listed under "Ready to redeem".
+- [ ] Staff scanner shows one **Redeem** button per banked reward kind; redeeming removes only that one. Activity shows the reward name on "Reward earned" and "Redeemed" rows.
+- [ ] Apple pass "READY TO REDEEM" shows names (e.g. "Free coffee · Free gelato"); Google pass text module "Ready to redeem" matches.
+- [ ] Customers → adjust +12 on a fresh tiered card → 2 / 10 with both rewards banked.
+
+## Card templates
+- [ ] Settings → Card template → pick Stars / Hearts / Coffee cups → Save. Web card, staff scanner and a re-fetched Apple pass strip use the new icon.
+
+## Legal pages
+- [ ] `/privacy` and `/terms` render; linked from the marketing footer, the login page, the dashboard sidebar and the customer card footer.

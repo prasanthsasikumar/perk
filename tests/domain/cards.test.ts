@@ -6,7 +6,7 @@ import { createCard, lookupCard, stampCard, redeemReward, adjustStamps } from "@
 import { CardNotFound, CooldownActive, NoRewardAvailable } from "@/lib/domain/errors";
 
 let t: Awaited<ReturnType<typeof createTestDb>>;
-let shopA: string, shopB: string, customerShop: string;
+let shopA: string, shopB: string, customerShop: string, tieredShop: string;
 const barista = { source: "barista_scan" as const, actor: "staff" };
 const T0 = new Date("2026-03-01T10:00:00Z");
 const at = (s: number) => new Date(T0.getTime() + s * 1000);
@@ -16,6 +16,10 @@ beforeAll(async () => {
   [{ id: shopA }] = await t.db.insert(shops).values(fakeShop({ slug: "a", stampsRequired: 5 })).returning({ id: shops.id });
   [{ id: shopB }] = await t.db.insert(shops).values(fakeShop({ slug: "b" })).returning({ id: shops.id });
   [{ id: customerShop }] = await t.db.insert(shops).values(fakeShop({ slug: "c", stampMode: "customer", customerScanCooldownMin: 15 })).returning({ id: shops.id });
+  [{ id: tieredShop }] = await t.db
+    .insert(shops)
+    .values(fakeShop({ slug: "t", stampsRequired: 10, rewardText: "Free gelato", rewardTiers: [{ stamps: 5, reward: "Free coffee" }] }))
+    .returning({ id: shops.id });
 });
 afterAll(async () => { await t.close(); });
 
@@ -25,6 +29,7 @@ describe("createCard / lookupCard", () => {
     expect(card.shortCode).toHaveLength(8);
     expect(card.appleAuthToken.length).toBeGreaterThan(20);
     expect(card.email).toBeNull();
+    expect(card.pendingRewards).toEqual([]);
     expect(evs.map((e) => e.type)).toEqual(["card_created"]);
   });
   it("looks up by id and by short code (case-insensitive, dashes ignored)", async () => {
@@ -51,11 +56,24 @@ describe("stampCard", () => {
     let r;
     for (let i = 0; i < 5; i++) r = await stampCard(t.db, shopA, card.id, barista, at(i * 10));
     expect(r!.card.stamps).toBe(0);
-    expect(r!.card.rewardsAvailable).toBe(1);
+    expect(r!.card.pendingRewards).toEqual(["Free coffee"]);
     expect(r!.rewardEarned).toBe(true);
+    expect(r!.rewardsEarned).toEqual(["Free coffee"]);
     expect(r!.events.map((e) => e.type)).toEqual(["stamp", "reward_earned"]);
+    expect(r!.events[1].note).toBe("Free coffee");
     for (let i = 5; i < 10; i++) r = await stampCard(t.db, shopA, card.id, barista, at(i * 10));
-    expect(r!.card.rewardsAvailable).toBe(2);
+    expect(r!.card.pendingRewards).toEqual(["Free coffee", "Free coffee"]);
+  });
+  it("banks a bonus tier part-way and the final reward at the end", async () => {
+    const { card } = await createCard(t.db, tieredShop);
+    let r;
+    for (let i = 0; i < 5; i++) r = await stampCard(t.db, tieredShop, card.id, barista, at(i * 10));
+    expect(r!.card.stamps).toBe(5); // no reset at a bonus tier
+    expect(r!.card.pendingRewards).toEqual(["Free coffee"]);
+    expect(r!.rewardsEarned).toEqual(["Free coffee"]);
+    for (let i = 5; i < 10; i++) r = await stampCard(t.db, tieredShop, card.id, barista, at(i * 10));
+    expect(r!.card.stamps).toBe(0);
+    expect(r!.card.pendingRewards).toEqual(["Free coffee", "Free gelato"]);
   });
   it("treats a second barista scan within 5s as a duplicate", async () => {
     const { card } = await createCard(t.db, shopA);
@@ -84,13 +102,23 @@ describe("stampCard", () => {
 });
 
 describe("redeemReward", () => {
-  it("fails with no reward, then succeeds and decrements", async () => {
+  it("fails with no reward, then succeeds and removes the banked reward", async () => {
     const { card } = await createCard(t.db, shopA);
     await expect(redeemReward(t.db, shopA, card.id, barista)).rejects.toBeInstanceOf(NoRewardAvailable);
     for (let i = 0; i < 5; i++) await stampCard(t.db, shopA, card.id, barista, at(i * 10));
     const r = await redeemReward(t.db, shopA, card.id, barista, at(100));
-    expect(r.card.rewardsAvailable).toBe(0);
+    expect(r.card.pendingRewards).toEqual([]);
+    expect(r.redeemed).toBe("Free coffee");
     expect(r.events.map((e) => e.type)).toEqual(["redeem"]);
+    expect(r.events[0].note).toBe("Free coffee");
+  });
+  it("redeems a specific tier by label and rejects labels that aren't banked", async () => {
+    const { card } = await createCard(t.db, tieredShop);
+    for (let i = 0; i < 10; i++) await stampCard(t.db, tieredShop, card.id, barista, at(i * 10));
+    await expect(redeemReward(t.db, tieredShop, card.id, barista, at(200), "Cake")).rejects.toBeInstanceOf(NoRewardAvailable);
+    const r = await redeemReward(t.db, tieredShop, card.id, barista, at(200), "Free gelato");
+    expect(r.redeemed).toBe("Free gelato");
+    expect(r.card.pendingRewards).toEqual(["Free coffee"]);
   });
 });
 
@@ -105,14 +133,21 @@ describe("adjustStamps", () => {
     expect(r.card.stamps).toBe(0);
     expect(r.events[0].delta).toBe(-3);
   });
-  it("rolls over into a reward", async () => {
+  it("rolls over into a reward and keeps the remaining stamps", async () => {
     const { card } = await createCard(t.db, shopA);
     const r = await adjustStamps(t.db, shopA, card.id, 7, "bulk", owner);
-    expect(r.card.stamps).toBe(0);
-    expect(r.card.rewardsAvailable).toBe(1);
+    expect(r.card.stamps).toBe(2);
+    expect(r.card.pendingRewards).toEqual(["Free coffee"]);
     expect(r.rewardEarned).toBe(true);
     expect(r.events.map((e) => e.type)).toEqual(["adjust", "reward_earned"]);
-    expect(r.events[0].delta).toBe(5);
+    expect(r.events[0].delta).toBe(7);
+  });
+  it("crosses several tiers in one adjustment", async () => {
+    const { card } = await createCard(t.db, tieredShop);
+    const r = await adjustStamps(t.db, tieredShop, card.id, 12, "import from paper card", owner);
+    expect(r.card.stamps).toBe(2);
+    expect(r.card.pendingRewards).toEqual(["Free coffee", "Free gelato"]);
+    expect(r.events.map((e) => e.note)).toEqual(["import from paper card", "Free coffee", "Free gelato"]);
   });
   it("writes events scoped to the shop", async () => {
     const { card } = await createCard(t.db, shopA);

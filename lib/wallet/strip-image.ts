@@ -1,13 +1,40 @@
 import { Resvg } from "@resvg/resvg-js";
+import type { StampStyle } from "@/lib/db/schema";
+import { STAMP_ICONS } from "@/lib/stamp-icons";
 
-export type StripOptions = { stamps: number; total: number; color: string; width?: number; height?: number };
+export type StripOptions = {
+  stamps: number;
+  total: number;
+  color: string;
+  width?: number;
+  height?: number;
+  /** Stamp cell template. */
+  style?: StampStyle;
+  /** 1-based positions that bank a bonus reward; drawn with an outer ring. */
+  milestones?: number[];
+};
+
+/** The icon paths for one filled cell, scaled from the 24-unit box into a circle of radius r. */
+function iconMarkup(style: StampStyle, cx: number, cy: number, r: number): string {
+  const s = (r * 1.2) / 24; // icon box spans ~60% of the diameter
+  const tx = cx - 12 * s;
+  const ty = cy - 12 * s;
+  const paths = STAMP_ICONS[style]
+    .map((p) =>
+      p.kind === "fill"
+        ? `<path d="${p.d}" fill="#ffffff"/>`
+        : `<path d="${p.d}" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    )
+    .join("");
+  return `<g transform="translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${s.toFixed(3)})">${paths}</g>`;
+}
 
 /**
  * Apple storeCard strip (375×123 pt at 1x), drawn to match the Perk card mockup:
  * a white rounded panel holding the stamp grid — filled stamps are solid brand-colour
- * circles with a white check; empty stamps are white circles with an ink outline.
+ * circles with a white icon; empty stamps are white circles with an ink outline.
  */
-export function renderStripSvg({ stamps, total, color, width = 375, height = 123 }: StripOptions): string {
+export function renderStripSvg({ stamps, total, color, width = 375, height = 123, style = "check", milestones = [] }: StripOptions): string {
   // Rows of at most 5 so circles stay large (max 3 rows).
   const rows = Math.min(3, Math.ceil(total / 5));
   const perRow = Math.ceil(total / rows);
@@ -37,11 +64,11 @@ export function renderStripSvg({ stamps, total, color, width = 375, height = 123
     const cx = startX + cellW * col + cellW / 2;
     const cy = panelY + padY + cellH * row + cellH / 2;
     const filled = i < stamps;
+    if (milestones.includes(i + 1)) {
+      circles.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r + 3).toFixed(1)}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="3 2"/>`);
+    }
     if (filled) {
-      circles.push(
-        `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${color}"/>` +
-          `<path d="M${(cx - r * 0.42).toFixed(1)} ${(cy + r * 0.05).toFixed(1)} l${(r * 0.3).toFixed(1)} ${(r * 0.32).toFixed(1)} l${(r * 0.58).toFixed(1)} -${(r * 0.66).toFixed(1)}" stroke="#ffffff" stroke-width="${(r * 0.24).toFixed(1)}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-      );
+      circles.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${color}"/>` + iconMarkup(style, cx, cy, r));
     } else {
       circles.push(
         `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r - 1).toFixed(1)}" fill="#ffffff" stroke="#1c1917" stroke-width="2.5"/>`,

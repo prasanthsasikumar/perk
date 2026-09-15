@@ -5,6 +5,7 @@ import { listCards } from "@/lib/db/queries/cards";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { CustomerRow } from "./row";
+import { bonusStampPositions } from "@/lib/domain/tiers";
 
 export const metadata = { title: "Customers" };
 
@@ -46,7 +47,7 @@ export default async function CustomersPage({ searchParams }: PageProps<"/dashbo
               </thead>
               <tbody className="divide-y divide-line">
                 {items.map((c) => (
-                  <CustomerRow key={c.id} card={{ id: c.id, shortCode: c.shortCode, email: c.email, stamps: c.stamps, rewardsAvailable: c.rewardsAvailable, lastStampedAt: c.lastStampedAt?.toISOString() ?? null, createdAt: c.createdAt.toISOString() }} stampsRequired={shop.stampsRequired} brandColor={shop.brandColor} />
+                  <CustomerRow key={c.id} card={{ id: c.id, shortCode: c.shortCode, email: c.email, stamps: c.stamps, pendingRewards: c.pendingRewards, lastStampedAt: c.lastStampedAt?.toISOString() ?? null, createdAt: c.createdAt.toISOString() }} shop={{ stampsRequired: shop.stampsRequired, brandColor: shop.brandColor, stampStyle: shop.stampStyle, milestones: bonusStampPositions(shop) }} />
                 ))}
               </tbody>
             </table>

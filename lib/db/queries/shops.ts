@@ -6,16 +6,16 @@ import { isValidSlug } from "@/lib/slug";
 import { randomPin, randomToken } from "@/lib/security/random";
 
 export type ShopSettingsPatch = Partial<
-  Pick<Shop, "name" | "logoUrl" | "brandColor" | "stampsRequired" | "rewardText" | "stampMode" | "customerScanCooldownMin">
+  Pick<Shop, "name" | "logoUrl" | "brandColor" | "stampsRequired" | "rewardText" | "rewardTiers" | "stampStyle" | "stampMode" | "customerScanCooldownMin">
 >;
 
 export type CreateShopInput = { name: string; slug: string } & Omit<ShopSettingsPatch, "name">;
 
-export type PublicShop = Pick<Shop, "id" | "slug" | "name" | "logoUrl" | "brandColor" | "stampsRequired" | "rewardText" | "stampMode">;
+export type PublicShop = Pick<Shop, "id" | "slug" | "name" | "logoUrl" | "brandColor" | "stampsRequired" | "rewardText" | "rewardTiers" | "stampStyle" | "stampMode">;
 
 export function publicShop(shop: Shop): PublicShop {
-  const { id, slug, name, logoUrl, brandColor, stampsRequired, rewardText, stampMode } = shop;
-  return { id, slug, name, logoUrl, brandColor, stampsRequired, rewardText, stampMode };
+  const { id, slug, name, logoUrl, brandColor, stampsRequired, rewardText, rewardTiers, stampStyle, stampMode } = shop;
+  return { id, slug, name, logoUrl, brandColor, stampsRequired, rewardText, rewardTiers, stampStyle, stampMode };
 }
 
 export async function createShopForOwner(db: Db, ownerEmail: string, input: CreateShopInput): Promise<Shop> {

@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db/client";
 import { getShopBySlug } from "@/lib/db/queries/shops";
+import { describeTiers } from "@/lib/domain/tiers";
 
 export async function generateMetadata({ params }: LayoutProps<"/[slug]">) {
   const { slug } = await params;
   const shop = await getShopBySlug(db, slug);
   if (!shop) return {};
-  return { title: `${shop.name} stamp card`, description: `Collect ${shop.stampsRequired} stamps at ${shop.name} to earn: ${shop.rewardText}.` };
+  return { title: `${shop.name} stamp card`, description: `Collect stamps at ${shop.name}. ${describeTiers(shop)}.` };
 }
 
 export async function generateViewport({ params }: LayoutProps<"/[slug]">) {
