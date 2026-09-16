@@ -3,7 +3,6 @@ import Image from "next/image";
 import { StampGrid } from "@/components/stamp-grid";
 import { PerkMark } from "@/components/perk-mark";
 import { SiteFooter } from "@/components/site-footer";
-import { TEASER_URL } from "@/lib/site";
 import "./marketing.css";
 
 export const metadata = { title: "Perk: loyalty cards that live in the wallet" };
@@ -37,23 +36,6 @@ export default function MarketingPage() {
           <div className="flex justify-start md:justify-end">
             <PassVisual stamps={7} total={10} name="Your café" reward="Free coffee of your choice" />
           </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <a href={TEASER_URL} target="_blank" rel="noreferrer" className="mk-teaser group block overflow-hidden rounded-3xl border border-line bg-paper">
-            <span className="relative block aspect-video">
-              <Image src="/media/teaser-thumb.webp" alt="Fifty-second video showing a card being added to a wallet and stamped at the counter" fill priority sizes="(max-width: 1024px) 100vw, 1024px" className="object-cover" />
-              <span aria-hidden className="absolute inset-0 grid place-items-center">
-                <span className="grid h-16 w-16 place-items-center rounded-full bg-cream text-ink shadow-[0_8px_24px_rgba(18,18,18,0.45)] transition-transform group-hover:scale-105 md:h-20 md:w-20">
-                  <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 md:h-8 md:w-8" fill="currentColor"><path d="M8 5.5v13l11-6.5z" /></svg>
-                </span>
-              </span>
-            </span>
-            <span className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-5 py-4">
-              <span className="text-sm font-medium text-ink">Watch Perk work, end to end</span>
-              <span className="text-sm text-ink-muted">50 seconds &middot; opens on YouTube</span>
-            </span>
-          </a>
         </section>
 
         <div id="how" className="mx-auto w-full max-w-6xl px-5">
