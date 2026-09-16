@@ -12,6 +12,8 @@ import { ShopHeader } from "./shop-header";
 import { issueApple, issueGoogle, issueWeb } from "./actions";
 import { bonusStampPositions, rewardTiers, statusLine } from "@/lib/domain/tiers";
 import { brandGradient } from "@/lib/color";
+import { getEnv } from "@/lib/env";
+import { Qr } from "@/components/qr";
 
 export default async function ShopLandingPage({ params, searchParams }: PageProps<"/[slug]">) {
   const { slug } = await params;
@@ -85,6 +87,16 @@ export default async function ShopLandingPage({ params, searchParams }: PageProp
             <WalletButtons platform={platform} onApple={onApple} onGoogle={onGoogle} onWeb={onWeb} layout="stack" />
           </div>
         </>
+      )}
+
+      {platform === "other" && (
+        <section className="mt-[22px] flex items-center gap-4 rounded-2xl border border-[rgba(26,23,32,0.09)] bg-white p-4">
+          <Qr value={`${getEnv().NEXT_PUBLIC_APP_URL}/${slug}`} size={112} label="QR code for this page" className="flex-none !p-0" />
+          <div className="min-w-0">
+            <p className="text-[15px] font-semibold tracking-[-0.01em]">On a computer?</p>
+            <p className="mt-1 text-[13.5px] leading-[1.5] text-[#5C5666]">Scan this with your phone camera to add the card straight to your wallet.</p>
+          </div>
+        </section>
       )}
 
       <p className="flex items-center gap-2 pt-[18px] text-[13px] text-[#6E6878]">

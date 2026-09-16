@@ -74,17 +74,19 @@ export function SettingsForm({ shop }: { shop: ShopSettings }) {
         <div className="space-y-3">
           <div>
             <p className="text-sm font-medium text-ink-soft">Bonus rewards along the way</p>
-            <p className="text-sm text-ink-muted">Optional. For example a free coffee at 5 stamps on a 10-stamp card that ends with a gelato. The card keeps counting after a bonus.</p>
+            <p className="text-sm text-ink-muted">Optional. For example a free coffee at 5 stamps on a 10-stamp card that ends with a gelato. The card keeps counting after a bonus. Bonuses come before the final stamp; the reward at {stamps} stamps is set above.</p>
           </div>
           <input type="hidden" name="rewardTiers" value={JSON.stringify(tiers)} />
           {tiers.map((t, i) => (
             <div key={i} className="flex flex-wrap items-center gap-2 rounded-xl border border-line bg-cream/60 p-3 sm:flex-nowrap">
               <span className="text-sm text-ink-soft">At</span>
-              <Select aria-label="Stamps for this bonus" value={t.stamps} onChange={(ev) => updateTier(i, { stamps: Number(ev.target.value) })} className="w-24 shrink-0">
-                {Array.from({ length: stamps - 1 }, (_, n) => n + 1).map((n) => <option key={n} value={n}>{n}</option>)}
-              </Select>
+              <div className="w-24 shrink-0">
+                <Select aria-label="Stamps for this bonus" value={t.stamps} onChange={(ev) => updateTier(i, { stamps: Number(ev.target.value) })}>
+                  {Array.from({ length: stamps - 1 }, (_, n) => n + 1).map((n) => <option key={n} value={n}>{n}</option>)}
+                </Select>
+              </div>
               <span className="text-sm text-ink-soft">stamps:</span>
-              <Input aria-label="Bonus reward" value={t.reward} onChange={(ev) => updateTier(i, { reward: ev.target.value })} placeholder="Free coffee" className="min-w-40 flex-1" />
+              <div className="min-w-40 flex-1"><Input aria-label="Bonus reward" value={t.reward} onChange={(ev) => updateTier(i, { reward: ev.target.value })} placeholder="Free coffee" /></div>
               <Button type="button" variant="ghost" size="sm" onClick={() => removeTier(i)} aria-label="Remove bonus reward">Remove</Button>
             </div>
           ))}
