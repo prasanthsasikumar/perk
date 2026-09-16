@@ -24,7 +24,7 @@ export default function TermsPage() {
 
       <Section title="5. Shop content and customer cards">
         <p>By entering your Shop&rsquo;s name, branding, logo, or reward rules, you grant Perk a non-exclusive, royalty-free licence to use that content solely to operate your Shop&rsquo;s card, poster, and web page. You warrant that your Shop content is accurate and does not violate any third-party rights.</p>
-        <p>Customer card data (stamp counts, rewards, and redemption history) is maintained in a ledger tied to each card and is visible to the Shop that issued it. Shop owners may manually adjust a card&rsquo;s stamp count (for example, to correct a missed stamp); such adjustments are recorded in the ledger with an attributable source. Rewards, stamp thresholds, and redemption rules are set and controlled by each Shop, not by Perk &mdash; disputes about reward eligibility are between the customer and the Shop.</p>
+        <p>Customer card data (stamp counts, rewards, and redemption history) is maintained in a ledger tied to each card and is visible to the Shop that issued it. Shop owners may manually adjust a card&rsquo;s stamp count (for example, to correct a missed stamp); such adjustments are recorded in the ledger with an attributable source. Rewards, stamp thresholds, and redemption rules are set and controlled by each Shop, not by Perk. Disputes about reward eligibility are between the customer and the Shop.</p>
         <p>We reserve the right to remove any content that we determine, in our sole discretion, to be inaccurate, offensive, or otherwise inappropriate.</p>
       </Section>
 
@@ -53,7 +53,7 @@ export default function TermsPage() {
       </Section>
 
       <Section title="10. Limitation of liability">
-        <p>The platform is provided &ldquo;as is&rdquo; without warranties of any kind, including as to availability, accuracy, or fitness for a particular purpose. To the fullest extent permitted by law, {COMPANY} shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform &mdash; including loss of stamp or reward data. Nothing in these terms limits any liability that cannot be excluded under applicable New Zealand law, including the Consumer Guarantees Act 1993 and the Fair Trading Act 1986.</p>
+        <p>The platform is provided &ldquo;as is&rdquo; without warranties of any kind, including as to availability, accuracy, or fitness for a particular purpose. To the fullest extent permitted by law, {COMPANY} shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform, including loss of stamp or reward data. Nothing in these terms limits any liability that cannot be excluded under applicable New Zealand law, including the Consumer Guarantees Act 1993 and the Fair Trading Act 1986.</p>
       </Section>
 
       <Section title="11. Governing law">
