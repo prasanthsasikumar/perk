@@ -1,1 +1,0 @@
-ALTER TABLE "cards" DROP COLUMN "rewards_available";

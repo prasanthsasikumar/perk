@@ -24,8 +24,9 @@ describe("0001_reward_tiers backfill", () => {
       { short_code: "AAAA1111", pending_rewards: ["Free flat white", "Free flat white"] },
       { short_code: "BBBB2222", pending_rewards: [] },
     ]);
+    // The legacy counter is kept for one release so the previous build keeps working while this one deploys.
     const cols = await client.query<{ column_name: string }>(`SELECT column_name FROM information_schema.columns WHERE table_name = 'cards'`);
-    expect(cols.rows.map((r) => r.column_name)).not.toContain("rewards_available");
+    expect(cols.rows.map((r) => r.column_name)).toContain("rewards_available");
     await client.close();
-  });
+  }, 60_000); // PGlite boots slowly when the whole suite runs in parallel
 });
