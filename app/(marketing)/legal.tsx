@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { PerkMark } from "@/components/perk-mark";
+import { SiteFooter } from "@/components/site-footer";
 
 export const LEGAL_UPDATED = "16 September 2026";
-export const CONTACT_EMAIL = "hello@junadesign.co.nz";
-export const COMPANY = "Juna Design Ltd";
+export { COMPANY, CONTACT_EMAIL } from "@/lib/site";
 
 /** Shared shell for the privacy policy and terms pages. */
 export function LegalPage({ title, intro, children }: { title: string; intro: string; children: React.ReactNode }) {
@@ -10,7 +11,7 @@ export function LegalPage({ title, intro, children }: { title: string; intro: st
     <div className="flex flex-1 flex-col">
       <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-5">
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-block h-6 w-6 rounded-full bg-accent" aria-hidden />
+          <PerkMark className="h-6 w-6 text-accent" />
           <span className="text-lg font-semibold tracking-tight">Perk</span>
         </Link>
         <nav className="flex gap-4 text-sm text-ink-soft">
@@ -24,12 +25,7 @@ export function LegalPage({ title, intro, children }: { title: string; intro: st
         <p className="mt-6 max-w-prose text-lg text-ink-soft">{intro}</p>
         <div className="legal mt-10 space-y-10">{children}</div>
       </main>
-      <footer className="border-t border-line">
-        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm text-ink-muted">
-          <span>Perk · digital stamp cards for coffee shops</span>
-          <span className="flex gap-4"><Link href="/privacy" className="hover:text-ink">Privacy</Link><Link href="/terms" className="hover:text-ink">Terms</Link><a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-ink">Contact</a></span>
-        </div>
-      </footer>
+      <SiteFooter width="max-w-3xl" />
     </div>
   );
 }

@@ -32,7 +32,7 @@ function iconMarkup(style: StampStyle, cx: number, cy: number, r: number): strin
 /**
  * Apple storeCard strip (375×123 pt at 1x), drawn to match the Perk card mockup:
  * a white rounded panel holding the stamp grid — filled stamps are solid brand-colour
- * circles with a white icon; empty stamps are white circles with an ink outline.
+ * circles with a white icon; empty stamps are white circles outlined in Ink Muted.
  */
 export function renderStripSvg({ stamps, total, color, width = 375, height = 123, style = "check", milestones = [] }: StripOptions): string {
   // Rows of at most 5 so circles stay large (max 3 rows).
@@ -71,7 +71,7 @@ export function renderStripSvg({ stamps, total, color, width = 375, height = 123
       circles.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${color}"/>` + iconMarkup(style, cx, cy, r));
     } else {
       circles.push(
-        `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r - 1).toFixed(1)}" fill="#ffffff" stroke="#1c1917" stroke-width="2.5"/>`,
+        `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r - 1).toFixed(1)}" fill="#ffffff" stroke="#737373" stroke-width="2.5"/>`,
       );
     }
   }

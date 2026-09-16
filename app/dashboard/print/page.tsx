@@ -26,7 +26,7 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
     return (
       <div className="print-sheet mx-auto max-w-[210mm]">
         <div className="no-print mb-6 flex items-center justify-between">
-          <Link href="/dashboard/print" className="text-sm text-accent underline">← All printables</Link>
+          <Link href="/dashboard/print" className="text-sm text-accent-strong underline">← All printables</Link>
           <PrintButton />
         </div>
         {sheet === "landing" && (
@@ -47,7 +47,7 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
             </ol>
             <div className="mt-8 flex items-center gap-6">
               <Qr value={staffUrl} size={140} label="Staff page QR" />
-              <p className="text-sm text-ink-soft">Scan to open the staff page. Keep this sheet behind the counter — the PIN is private.</p>
+              <p className="text-sm text-ink-soft">Scan to open the staff page. Keep this sheet behind the counter. The PIN is private.</p>
             </div>
           </div>
         )}
@@ -75,7 +75,7 @@ function SheetCard({ href, title, body }: { href: string; title: string; body: s
     <Link href={href} className="block rounded-card border border-line bg-paper p-5 transition-colors hover:border-accent/50 hover:bg-accent-soft/30">
       <p className="font-semibold">{title}</p>
       <p className="mt-1 text-sm text-ink-soft">{body}</p>
-      <p className="mt-3 text-sm text-accent underline">Open sheet →</p>
+      <p className="mt-3 text-sm text-accent-strong underline">Open sheet →</p>
     </Link>
   );
 }

@@ -20,7 +20,7 @@ export default async function SettingsPage() {
       <Card>
         <CardTitle>Your URL</CardTitle>
         <p className="mt-1 font-mono text-ink">{appUrl}/{shop.slug}</p>
-        <p className="mt-1 text-sm text-ink-muted">Fixed once created — it&rsquo;s printed on your posters.</p>
+        <p className="mt-1 text-sm text-ink-muted">Fixed once created. It&rsquo;s printed on your posters.</p>
       </Card>
 
       <SettingsForm shop={{ name: shop.name, brandColor: shop.brandColor, stampsRequired: shop.stampsRequired, rewardText: shop.rewardText, rewardTiers: shop.rewardTiers, stampStyle: shop.stampStyle, stampMode: shop.stampMode, customerScanCooldownMin: shop.customerScanCooldownMin, logoUrl: shop.logoUrl }} />

@@ -17,19 +17,26 @@ export function CustomerRow({ card, shop }: { card: RowCard; shop: RowShop }) {
   const { stampsRequired } = shop;
   const [open, setOpen] = useState(false);
   const last = card.lastStampedAt ? new Date(card.lastStampedAt) : null;
+  const lastLabel = last ? last.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "No visits yet";
   return (
     <>
       <tr className="cursor-pointer hover:bg-cream/60" onClick={() => setOpen((o) => !o)}>
-        <td className="px-4 py-3 font-mono">{card.shortCode}</td>
-        <td className="px-4 py-3 text-ink-soft">{card.email ?? <span className="text-ink-muted">—</span>}</td>
-        <td className="px-4 py-3 tabular-nums">{card.stamps} / {stampsRequired}</td>
-        <td className="px-4 py-3 tabular-nums">{card.pendingRewards.length > 0 ? <span className="font-medium text-ok">{pendingRewardsLabel(card.pendingRewards)}</span> : "0"}</td>
-        <td className="px-4 py-3 text-ink-soft">{last ? last.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : <span className="text-ink-muted">never</span>}</td>
-        <td className="px-4 py-3 text-right text-ink-muted">{open ? "▴" : "▾"}</td>
+        <td className="px-3 py-3 font-mono sm:px-4">
+          {card.shortCode}
+          <span className="block truncate font-sans text-xs font-normal text-ink-muted sm:hidden">{card.email ?? "No email"}</span>
+        </td>
+        <td className="hidden px-4 py-3 text-ink-soft sm:table-cell">{card.email ?? <span className="text-ink-muted">None</span>}</td>
+        <td className="px-3 py-3 tabular-nums sm:px-4">
+          <span className="whitespace-nowrap">{card.stamps} / {stampsRequired}</span>
+          <span className="block whitespace-nowrap text-xs text-ink-muted md:hidden">{lastLabel}</span>
+        </td>
+        <td className="px-3 py-3 tabular-nums sm:px-4">{card.pendingRewards.length > 0 ? <span className="font-medium text-ok">{pendingRewardsLabel(card.pendingRewards)}</span> : "0"}</td>
+        <td className="hidden px-4 py-3 text-ink-soft md:table-cell">{last ? lastLabel : <span className="text-ink-muted">never</span>}</td>
+        <td className="px-3 py-3 text-right text-ink-muted sm:px-4">{open ? "▴" : "▾"}</td>
       </tr>
       {open && (
         <tr>
-          <td colSpan={6} className="bg-cream/60 px-4 py-4">
+          <td colSpan={6} className="bg-cream/60 px-3 py-4 sm:px-4">
             <Drawer card={card} shop={shop} />
           </td>
         </tr>

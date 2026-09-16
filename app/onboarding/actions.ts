@@ -22,7 +22,7 @@ export async function completeOnboarding(_prev: OnboardingState, formData: FormD
   let logoUrl: string | undefined;
   const logo = formData.get("logo");
   if (logo instanceof File && logo.size > 0) {
-    if (!isStorageConfigured()) return { errors: { logo: "Logo uploads aren't configured yet — skip the logo for now." }, values };
+    if (!isStorageConfigured()) return { errors: { logo: "Logo uploads aren't configured yet. Skip the logo for now." }, values };
     try {
       logoUrl = await uploadLogo(parsed.data.slug, logo);
     } catch (e) {

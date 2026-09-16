@@ -31,7 +31,7 @@ export default async function WebCardPage({ params, searchParams }: PageProps<"/
   const pub = publicShop(shop);
   const platform = detectPlatform((await headers()).get("user-agent"));
   const hasCookie = (await readCardCookie(shop.id)) === card.id;
-  const walletNotice = sp.wallet === "google-unavailable" ? "Google Wallet isn't available for this shop yet — your web card works the same way." : sp.wallet === "google-error" ? "Couldn't open Google Wallet right now. Your web card still works." : null;
+  const walletNotice = sp.wallet === "google-unavailable" ? "Google Wallet isn't available for this shop yet. Your web card works the same way." : sp.wallet === "google-error" ? "Couldn't open Google Wallet right now. Your web card still works." : null;
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-5 py-8">

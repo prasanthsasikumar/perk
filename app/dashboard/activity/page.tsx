@@ -9,6 +9,12 @@ import { EventBadge, SOURCE_LABELS, fmtTime } from "@/components/event-badge";
 
 export const metadata = { title: "Activity" };
 
+/** Signed stamp change, blank for events that do not move the count. */
+function delta(e: { type: EventType; delta: number }): string {
+  if (e.type !== "stamp" && e.type !== "adjust") return "";
+  return e.delta > 0 ? `+${e.delta}` : String(e.delta);
+}
+
 export default async function ActivityPage({ searchParams }: PageProps<"/dashboard/activity">) {
   const { shop } = await requireShop();
   const sp = await searchParams;
@@ -31,17 +37,26 @@ export default async function ActivityPage({ searchParams }: PageProps<"/dashboa
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-cream text-left text-xs uppercase tracking-wide text-ink-muted">
-                <tr><th className="px-4 py-3 font-medium">When</th><th className="px-4 py-3 font-medium">Event</th><th className="px-4 py-3 font-medium">Card</th><th className="px-4 py-3 font-medium">Δ</th><th className="px-4 py-3 font-medium">By</th><th className="px-4 py-3 font-medium">Note</th></tr>
+                <tr><th className="hidden px-4 py-3 font-medium sm:table-cell">When</th><th className="px-3 py-3 font-medium sm:px-4">Event</th><th className="px-3 py-3 font-medium sm:px-4">Card</th><th className="hidden px-4 py-3 font-medium sm:table-cell">Δ</th><th className="hidden px-4 py-3 font-medium md:table-cell">By</th><th className="hidden px-4 py-3 font-medium md:table-cell">Note</th></tr>
               </thead>
               <tbody className="divide-y divide-line">
                 {items.map((e) => (
                   <tr key={e.id}>
-                    <td className="whitespace-nowrap px-4 py-2.5 text-ink-soft">{fmtTime(e.createdAt)}</td>
-                    <td className="px-4 py-2.5"><EventBadge type={e.type} /></td>
-                    <td className="px-4 py-2.5 font-mono">{e.cardShortCode}</td>
-                    <td className="px-4 py-2.5 tabular-nums">{e.type === "stamp" || e.type === "adjust" ? (e.delta > 0 ? `+${e.delta}` : e.delta) : ""}</td>
-                    <td className="px-4 py-2.5 text-ink-soft">{SOURCE_LABELS[e.source] ?? e.source}{e.actor && e.source === "owner_adjust" ? ` · ${e.actor}` : ""}</td>
-                    <td className="px-4 py-2.5 text-ink-soft">{e.note ?? ""}</td>
+                    <td className="hidden whitespace-nowrap px-4 py-2.5 text-ink-soft sm:table-cell">{fmtTime(e.createdAt)}</td>
+                    <td className="px-3 py-2.5 sm:px-4">
+                      <EventBadge type={e.type} />
+                      <span className="mt-1 block text-xs text-ink-muted sm:hidden">{fmtTime(e.createdAt)}</span>
+                    </td>
+                    <td className="px-3 py-2.5 font-mono sm:px-4">
+                      {e.cardShortCode}
+                      <span className="mt-1 block font-sans text-xs text-ink-muted md:hidden">
+                        {delta(e)}{delta(e) ? " · " : ""}{SOURCE_LABELS[e.source] ?? e.source}{e.actor && e.source === "owner_adjust" ? ` · ${e.actor}` : ""}
+                        {e.note ? ` · ${e.note}` : ""}
+                      </span>
+                    </td>
+                    <td className="hidden px-4 py-2.5 tabular-nums sm:table-cell">{delta(e)}</td>
+                    <td className="hidden px-4 py-2.5 text-ink-soft md:table-cell">{SOURCE_LABELS[e.source] ?? e.source}{e.actor && e.source === "owner_adjust" ? ` · ${e.actor}` : ""}</td>
+                    <td className="hidden px-4 py-2.5 text-ink-soft md:table-cell">{e.note ?? ""}</td>
                   </tr>
                 ))}
               </tbody>
@@ -49,7 +64,7 @@ export default async function ActivityPage({ searchParams }: PageProps<"/dashboa
           </div>
         )}
       </Card>
-      {moreHref && <div className="text-center"><Link href={moreHref} className="text-sm text-accent underline">Load more</Link></div>}
+      {moreHref && <div className="text-center"><Link href={moreHref} className="text-sm text-accent-strong underline">Load more</Link></div>}
     </div>
   );
 }

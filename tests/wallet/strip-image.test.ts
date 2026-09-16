@@ -8,7 +8,7 @@ describe("strip image", () => {
     expect(svg.match(/<circle/g)).toHaveLength(10);
     expect(svg.match(/fill="#c96a2b"/g)).toHaveLength(3); // solid filled stamps
     expect(svg.match(/<path/g)).toHaveLength(3); // white checks
-    expect(svg.match(/stroke="#1c1917"/g)).toHaveLength(7); // outlined empties
+    expect(svg.match(/stroke="#737373"/g)).toHaveLength(7); // outlined empties
   });
   it("wraps 10 stamps into two rows of five", () => {
     const svg = renderStripSvg({ stamps: 0, total: 10, color: "#000000" });

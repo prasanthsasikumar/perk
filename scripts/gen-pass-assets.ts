@@ -1,8 +1,10 @@
-/** Generates default Apple Wallet pass images from public/perk-mark.svg. Run: npx tsx scripts/gen-pass-assets.ts */
+/** Generates default Apple Wallet pass images from public/perk-mark-white.svg. Run: npx tsx scripts/gen-pass-assets.ts
+ *  White knockout, not Stamp Rust: these sit on the cafe's own brand colour, and the brand system keeps
+ *  Stamp Rust out of cafe-owned zones (docs/brand/BRAND_IDENTITY.md, section 8). */
 import sharp from "sharp";
 import { readFileSync, writeFileSync } from "node:fs";
 
-const mark = readFileSync("public/perk-mark.svg");
+const mark = readFileSync("public/perk-mark-white.svg");
 const out = async (name: string, w: number, h: number) => {
   const png = await sharp(mark, { density: 400 })
     .resize(Math.round(h * 0.8), Math.round(h * 0.8), { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })

@@ -14,7 +14,7 @@ export default async function OnboardingPage() {
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:py-14">
       <div className="mb-8">
-        <p className="text-sm font-medium text-accent">Welcome to Perk</p>
+        <p className="text-sm font-medium text-accent-strong">Welcome to Perk</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">Set up your stamp card</h1>
         <p className="mt-2 max-w-prose text-ink-soft">Takes about two minutes. You can change everything except your URL later.</p>
       </div>

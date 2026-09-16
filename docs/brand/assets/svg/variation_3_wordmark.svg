@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60" fill="none">
+  <!-- P with star cutout -->
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M10 10 H35 C44 10 50 16 50 25 C50 34 44 40 35 40 H22 V50 H10 V10 Z M22 20 V30 H33 C36 30 38 28 38 25 C38 22 36 20 33 20 H22 Z" fill="#C95A2B"/>
+  <path d="M22 17 L24 22 L29 24 L24 26 L22 31 L20 26 L15 24 L20 22 Z" fill="#FFFFFF"/>
+  <!-- ERK -->
+  <text x="56" y="48" font-family="'Space Grotesk', 'Arial', sans-serif" font-weight="700" font-size="44" fill="#C95A2B" letter-spacing="-1">erk</text>
+</svg>

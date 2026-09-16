@@ -41,7 +41,7 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
   if (shop.stampMode !== "customer") {
     return (
       <Shell shop={pub}>
-        <Notice title="Ask the barista to stamp your card" body={`${shop.name} stamps cards at the counter — just show your pass.`}>
+        <Notice title="Ask the barista to stamp your card" body={`${shop.name} stamps cards at the counter. Just show your pass.`}>
           <Link href={`/${slug}`} className={buttonClass("primary", "lg")}>Open my card</Link>
         </Notice>
       </Shell>
@@ -62,7 +62,7 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
   if (!card) {
     return (
       <Shell shop={pub}>
-        <Notice title="Get your card first" body="It takes one tap — then this QR stamps it every visit.">
+        <Notice title="Get your card first" body="It takes one tap, then this QR stamps it every visit.">
           <Link href={`/${slug}?then=scan&t=${encodeURIComponent(token)}`} className={buttonClass("primary", "lg")}>Get my card</Link>
         </Notice>
       </Shell>
@@ -100,7 +100,7 @@ export default async function ScanPage({ params, searchParams }: PageProps<"/[sl
         <p className="mt-1 text-2xl font-semibold leading-tight">{outcome.earned ? `Reward unlocked: ${outcome.earned}` : `${outcome.stamps} of ${shop.stampsRequired} stamps`}</p>
         <div className="mt-5 rounded-2xl bg-white p-4 text-ink">
           <StampGrid stamps={outcome.stamps} total={shop.stampsRequired} color={shop.brandColor} style={shop.stampStyle} milestones={bonusStampPositions(shop)} />
-          {outcome.pendingRewards.length > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>Ready to redeem: {pendingRewardsLabel(outcome.pendingRewards)} — show the barista.</p>}
+          {outcome.pendingRewards.length > 0 && <p className="mt-3 text-sm font-medium" style={{ color: shop.brandColor }}>Ready to redeem: {pendingRewardsLabel(outcome.pendingRewards)}. Show the barista.</p>}
         </div>
       </section>
       <div className="mt-6 text-center">

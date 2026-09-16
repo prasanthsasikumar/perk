@@ -3,6 +3,7 @@ import { requireShop } from "@/lib/auth/session";
 import { signOut } from "@/lib/auth/config";
 import { DashNav } from "./nav";
 import { FeedbackLink } from "@/components/feedback-link";
+import { PerkMark } from "@/components/perk-mark";
 
 export default async function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   const { shop, ownerEmail } = await requireShop();
@@ -11,7 +12,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
       <aside className="no-print border-b border-line bg-paper lg:w-60 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between px-5 py-4 lg:block">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="inline-block h-6 w-6 rounded-full bg-accent" aria-hidden />
+            <PerkMark className="h-6 w-6 text-accent" />
             <span className="font-semibold tracking-tight">Perk</span>
           </Link>
           <p className="mt-0 truncate text-sm text-ink-soft lg:mt-4">{shop.name}</p>

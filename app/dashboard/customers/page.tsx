@@ -37,12 +37,12 @@ export default async function CustomersPage({ searchParams }: PageProps<"/dashbo
             <table className="w-full text-sm">
               <thead className="bg-cream text-left text-xs uppercase tracking-wide text-ink-muted">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Card</th>
-                  <th className="px-4 py-3 font-medium">Email</th>
-                  <th className="px-4 py-3 font-medium">Stamps</th>
-                  <th className="px-4 py-3 font-medium">Rewards</th>
-                  <th className="px-4 py-3 font-medium">Last visit</th>
-                  <th className="px-4 py-3 font-medium"></th>
+                  <th className="px-3 py-3 font-medium sm:px-4">Card</th>
+                  <th className="hidden px-4 py-3 font-medium sm:table-cell">Email</th>
+                  <th className="px-3 py-3 font-medium sm:px-4">Stamps</th>
+                  <th className="px-3 py-3 font-medium sm:px-4">Rewards</th>
+                  <th className="hidden px-4 py-3 font-medium md:table-cell">Last visit</th>
+                  <th className="px-3 py-3 font-medium sm:px-4"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
@@ -55,7 +55,7 @@ export default async function CustomersPage({ searchParams }: PageProps<"/dashbo
         )}
       </Card>
       {moreHref && (
-        <div className="text-center"><Link href={moreHref} className="text-sm text-accent underline">Load more</Link></div>
+        <div className="text-center"><Link href={moreHref} className="text-sm text-accent-strong underline">Load more</Link></div>
       )}
     </div>
   );

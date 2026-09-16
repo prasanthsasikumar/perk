@@ -1,15 +1,19 @@
 import Link from "next/link";
+import Image from "next/image";
 import { StampGrid } from "@/components/stamp-grid";
+import { PerkMark } from "@/components/perk-mark";
+import { SiteFooter } from "@/components/site-footer";
+import { TEASER_URL } from "@/lib/site";
 import "./marketing.css";
 
-export const metadata = { title: "Perk — loyalty cards that live in the wallet" };
+export const metadata = { title: "Perk: loyalty cards that live in the wallet" };
 
 export default function MarketingPage() {
   return (
     <div className="flex flex-1 flex-col overflow-x-clip">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-block h-6 w-6 rounded-full bg-accent" aria-hidden />
+          <PerkMark className="h-6 w-6 text-accent" />
           <span className="text-lg font-semibold tracking-tight">Perk</span>
         </Link>
         <Link href="/login" className="text-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink">Sign in</Link>
@@ -25,7 +29,7 @@ export default function MarketingPage() {
               <a href="#how" className="text-sm font-medium text-ink-soft underline decoration-line underline-offset-4 hover:text-ink">See how it works</a>
             </div>
             <ul className="mt-7 flex flex-wrap gap-2 text-sm font-medium text-ink-soft">
-              {["Free for coffee shops", "No app for customers", "No hardware — any phone works", "Set up in 2 minutes"].map((t) => (
+              {["Free for coffee shops", "No app for customers", "No hardware, any phone works", "Set up in 2 minutes"].map((t) => (
                 <li key={t} className="rounded-full border border-line bg-paper px-3.5 py-1.5">{t}</li>
               ))}
             </ul>
@@ -35,14 +39,31 @@ export default function MarketingPage() {
           </div>
         </section>
 
+        <section className="mx-auto w-full max-w-6xl px-5 pb-16">
+          <a href={TEASER_URL} target="_blank" rel="noreferrer" className="mk-teaser group block overflow-hidden rounded-3xl border border-line bg-paper">
+            <span className="relative block aspect-video">
+              <Image src="/media/teaser-thumb.webp" alt="Fifty-second video showing a card being added to a wallet and stamped at the counter" fill priority sizes="(max-width: 1024px) 100vw, 1024px" className="object-cover" />
+              <span aria-hidden className="absolute inset-0 grid place-items-center">
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-cream text-ink shadow-[0_8px_24px_rgba(18,18,18,0.45)] transition-transform group-hover:scale-105 md:h-20 md:w-20">
+                  <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 md:h-8 md:w-8" fill="currentColor"><path d="M8 5.5v13l11-6.5z" /></svg>
+                </span>
+              </span>
+            </span>
+            <span className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-5 py-4">
+              <span className="text-sm font-medium text-ink">Watch Perk work, end to end</span>
+              <span className="text-sm text-ink-muted">50 seconds &middot; opens on YouTube</span>
+            </span>
+          </a>
+        </section>
+
         <div id="how" className="mx-auto w-full max-w-6xl px-5">
           <Stage n="01" label="Set up" title="Two minutes, one email." body="Sign in with a magic link, name your shop, pick a colour and how many stamps earn the reward. Perk gives you a URL for your shop and a staff PIN.">
             <SetupVisual />
           </Stage>
-          <Stage n="02" label="Print" title="One poster on the counter." body="Print the A4 sheet from your dashboard. Customers scan it, tap once, and the card lands in their wallet — no app, no account, no form.">
+          <Stage n="02" label="Print" title="One poster on the counter." body="Print the A4 sheet from your dashboard. Customers scan it, tap once, and the card lands in their wallet. No app, no account, no form.">
             <PosterVisual />
           </Stage>
-          <Stage n="03" label="Stamp" title="Scan, or let them scan." body="Fast enough for the morning rush: baristas scan the pass with any phone and tap +1 — no terminal, no extra hardware. Or go self-serve: customers scan a counter QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
+          <Stage n="03" label="Stamp" title="Scan, or let them scan." body="Fast enough for the morning rush: baristas scan the pass with any phone and tap +1. No terminal, no extra hardware. Or go self-serve: customers scan a counter QR after buying, with a cooldown so nobody stamps twice. Either way the pass updates on their phone within seconds.">
             <ScanVisual />
           </Stage>
           <Stage n="04" label="Redeem" title="Rewards stack until they're used." body="At ten stamps the card resets and a reward is banked. Staff redeem it with a tap; the ledger records who stamped what, and you can fix a missed stamp from the dashboard." last>
@@ -62,16 +83,32 @@ export default function MarketingPage() {
           </dl>
         </section>
 
+        <section className="border-t border-line bg-surface-muted">
+          <div className="mx-auto w-full max-w-6xl px-5 py-20">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">What your shop actually gets</h2>
+            <p className="mt-3 max-w-prose text-ink-soft">Real screens from a running shop. Nothing here is a mock-up.</p>
+            <div className="mt-10 grid gap-5 sm:grid-cols-3">
+              <PhoneShot src="/media/shop-landing.webp" caption="The page your customers land on" />
+              <PhoneShot src="/media/web-card.webp" caption="The card, once it is in their wallet" />
+              <PhoneShot src="/media/staff-scanner.webp" caption="What a barista sees mid-rush" />
+            </div>
+            <div className="mt-5 grid gap-5 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] sm:items-start">
+              <Shot src="/media/dashboard.webp" w={1280} h={800} caption="Your dashboard: counters, customers, ledger" sizes="(max-width: 640px) 100vw, 720px" />
+              <Shot src="/media/print-poster.webp" w={1280} h={1851} caption="The A4 poster, ready to print" sizes="(max-width: 640px) 100vw, 380px" />
+            </div>
+          </div>
+        </section>
+
         <section className="mx-auto w-full max-w-6xl px-5 py-20" id="pricing">
           <div className="grid gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:items-start">
             <div>
               <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Pricing</h2>
-              <p className="mt-3 max-w-prose text-ink-soft">Perk was built for a real caf&eacute; — and it&rsquo;s free for yours too. If enough shops use it, it stays free and keeps growing.</p>
+              <p className="mt-3 max-w-prose text-ink-soft">Perk was built for a real caf&eacute;, and it&rsquo;s free for yours too. If enough shops use it, it stays free and keeps growing.</p>
             </div>
             <div className="rounded-3xl border border-line bg-paper p-8">
               <div className="flex items-baseline justify-between">
                 <p className="text-5xl font-semibold tracking-tight">Free</p>
-                <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">No card details asked</span>
+                <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent-strong">No card details asked</span>
               </div>
               <ul className="mt-6 grid gap-3 text-ink-soft sm:grid-cols-2">
                 {["Unlimited customers and stamps", "Apple Wallet, Google Wallet + web card", "Both stamping modes", "Printable counter posters", "Dashboard, ledger and staff PINs", "Your logo and colours on the card"].map((t) => (
@@ -83,18 +120,18 @@ export default function MarketingPage() {
           </div>
         </section>
 
-        <section className="border-t border-line">
+        <section className="border-t border-line" id="faq">
           <div className="mx-auto w-full max-w-6xl px-5 py-20">
             <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Questions cafés ask us</h2>
             <dl className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-2">
-              <Faq q="Do my customers need to install an app?" a="No. They scan your poster and tap once — the card goes straight into Apple Wallet or Google Wallet. Anyone without a wallet gets a web card that works the same way." />
+              <Faq q="Do my customers need to install an app?" a="No. They scan your poster and tap once, and the card goes straight into Apple Wallet or Google Wallet. Anyone without a wallet gets a web card that works the same way." />
               <Faq q="Do I need a scanner or any hardware?" a="No. Any phone works. Staff open your private staff page, point the camera at the customer's pass, and tap +1. There's a typed code fallback if the camera's busy." />
-              <Faq q="Is it fast enough for the morning rush?" a="Scan, tap, done — a stamp takes about two seconds. If even that's too much, switch to self-serve mode: customers scan a counter QR themselves after buying." />
+              <Faq q="Is it fast enough for the morning rush?" a="Scan, tap, done. A stamp takes about two seconds. If even that's too much, switch to self-serve mode: customers scan a counter QR themselves after buying." />
               <Faq q="What stops people stamping themselves ten times?" a="In staff mode, only your team can stamp. In self-serve mode there's a per-card cooldown you control, and every stamp lands in a ledger so you can spot and fix anything odd." />
-              <Faq q="What if a customer loses their phone or deletes the pass?" a="Cards can be backed up with an email — one tap re-sends the link. And you can fix any card's stamps from the dashboard, with a note, any time." />
+              <Faq q="What if a customer loses their phone or deletes the pass?" a="Cards can be backed up with an email, and one tap re-sends the link. And you can fix any card's stamps from the dashboard, with a note, any time." />
               <Faq q="Is it really free?" a="Yes. Perk was built for a real caf&eacute; in New Zealand and it costs us little to run. If enough shops use it, it stays free and keeps growing." />
             </dl>
-            <p className="mt-10 text-ink-soft">Question before you set up? Email <a className="font-medium text-accent underline" href="mailto:prasanth@ahlab.org">prasanth@ahlab.org</a> — or just <Link href="/login" className="font-medium text-accent underline">try it</Link>; setup takes two minutes.</p>
+            <p className="mt-10 text-ink-soft">Question before you set up? Email <a className="font-medium text-accent-strong underline" href="mailto:hello@junadesign.co.nz">hello@junadesign.co.nz</a>. Or just <Link href="/login" className="font-medium text-accent-strong underline">try it</Link>; setup takes two minutes.</p>
           </div>
         </section>
 
@@ -109,13 +146,31 @@ export default function MarketingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm text-ink-muted">
-          <span>Perk · digital stamp cards for coffee shops</span>
-          <span className="flex gap-4"><Link href="/privacy" className="hover:text-ink">Privacy</Link><Link href="/terms" className="hover:text-ink">Terms</Link><Link href="/login" className="hover:text-ink">Sign in</Link><a href="https://github.com/prasanthsasikumar/perk" className="hover:text-ink" rel="noreferrer">Source</a></span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
+  );
+}
+
+function Shot({ src, w, h, caption, sizes }: { src: string; w: number; h: number; caption: string; sizes: string }) {
+  return (
+    <figure>
+      <div className="overflow-hidden rounded-2xl border border-line bg-paper">
+        <Image src={src} alt={caption} width={w} height={h} sizes={sizes} className="h-auto w-full" />
+      </div>
+      <figcaption className="mt-3 text-sm text-ink-soft">{caption}</figcaption>
+    </figure>
+  );
+}
+
+/** Phone captures vary in height; a fixed portrait crop keeps the row even. */
+function PhoneShot({ src, caption }: { src: string; caption: string }) {
+  return (
+    <figure>
+      <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-line bg-paper">
+        <Image src={src} alt={caption} fill sizes="(max-width: 640px) 100vw, 340px" className="object-cover object-top" />
+      </div>
+      <figcaption className="mt-3 text-sm text-ink-soft">{caption}</figcaption>
+    </figure>
   );
 }
 
@@ -123,7 +178,7 @@ function Stage({ n, label, title, body, children, last = false }: { n: string; l
   return (
     <section className={`mk-stage grid gap-8 py-14 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,4fr)] md:gap-10 md:py-20 ${last ? "" : ""}`}>
       <div className="">
-        <p className="text-sm font-medium text-ink-muted">{n} — <span className="text-accent">{label}</span></p>
+        <p className="text-sm font-medium text-ink-muted">{n} &middot; <span className="text-accent-strong">{label}</span></p>
       </div>
       <div className="mk-reveal min-w-0">
         <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
@@ -172,7 +227,7 @@ function SetupVisual() {
   return (
     <figure className="w-full max-w-xs rounded-card border border-line bg-paper p-5" aria-label="Setup form preview">
       <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">Your URL</p>
-      <p className="mt-1 font-mono text-sm">perk.app/<span className="rounded bg-accent-soft px-1 text-accent">your-shop</span></p>
+      <p className="mt-1 font-mono text-sm">perk.app/<span className="rounded bg-accent-soft px-1 text-accent-strong">your-shop</span></p>
       <p className="mt-4 text-xs font-medium uppercase tracking-wide text-ink-muted">Stamps to earn a reward</p>
       <div className="mt-2 h-2 rounded-full bg-line"><div className="h-2 w-1/3 rounded-full bg-accent" /></div>
       <p className="mt-4 text-xs font-medium uppercase tracking-wide text-ink-muted">Staff PIN</p>

@@ -14,7 +14,7 @@ const ITEMS = [
 export function DashNav() {
   const path = usePathname();
   return (
-    <nav className="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-col lg:px-3 lg:pb-6">
+    <nav className="flex flex-wrap gap-1 px-3 pb-3 lg:flex-col lg:flex-nowrap lg:px-3 lg:pb-6">
       {ITEMS.map((it) => {
         const active = it.href === "/dashboard" ? path === "/dashboard" : path.startsWith(it.href);
         return (

@@ -70,7 +70,7 @@ export function Scanner({ slug, brandColor, stampStyle }: { slug: string; brandC
             <p className="mt-2 text-xs text-ink-muted">{card.tiers.map((t) => `${t.stamps}: ${t.reward}`).join(" · ")}</p>
           )}
           {card.rewardsAvailable > 0 && (
-            <p className="mt-4 rounded-xl bg-accent-soft px-3 py-2 text-sm font-medium text-accent">
+            <p className="mt-4 rounded-xl bg-accent-soft px-3 py-2 text-sm font-medium text-accent-strong">
               Ready to redeem: {countRewards(card.pendingRewards).map((r) => (r.count > 1 ? `${r.reward} ×${r.count}` : r.reward)).join(" · ")}
             </p>
           )}
@@ -101,7 +101,7 @@ export function Scanner({ slug, brandColor, stampStyle }: { slug: string; brandC
             {error && <p className="text-sm text-danger">{error}</p>}
           </form>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
-            {!scanning && <button type="button" className="text-accent underline" onClick={() => setScanning(true)}>Use camera</button>}
+            {!scanning && <button type="button" className="text-accent-strong underline" onClick={() => setScanning(true)}>Use camera</button>}
             <PhotoReader onDecode={onDecode} />
           </div>
         </>
@@ -135,7 +135,7 @@ export function cameraHelp(err: unknown): string {
   else if (name === "SecurityError" || msg.includes("secure")) base = "The camera only works on a secure (https) page.";
   else base = "The camera couldn't start.";
   if (typeof navigator !== "undefined" && isBrave()) {
-    base += " In Brave, tap the lion (Shields) icon in the address bar and turn Shields down for this site — its fingerprinting protection blocks the camera — then reload.";
+    base += " In Brave, tap the lion (Shields) icon in the address bar and turn Shields down for this site, then reload. Brave's fingerprinting protection blocks the camera.";
   }
   return base;
 }
@@ -189,7 +189,7 @@ function CameraReader({ onDecode, onUnavailable }: { onDecode: (value: string) =
       {msg ? (
         <div className="rounded-2xl border border-line bg-paper p-4 text-sm text-ink-soft">
           <p>{msg}</p>
-          <button type="button" className="mt-2 text-accent underline" onClick={() => { setMsg(null); setAttempt((n) => n + 1); }}>Retry camera</button>
+          <button type="button" className="mt-2 text-accent-strong underline" onClick={() => { setMsg(null); setAttempt((n) => n + 1); }}>Retry camera</button>
         </div>
       ) : (
         <p className="text-center text-xs text-ink-muted">Point the camera at the customer&rsquo;s pass</p>
@@ -229,7 +229,7 @@ function PhotoReader({ onDecode }: { onDecode: (value: string) => void }) {
     <>
       <div id={id} className="hidden" />
       <input ref={inputRef} type="file" accept="image/*" capture="environment" className="sr-only" aria-label="Take a photo of the pass" onChange={(e) => void onFile(e.target.files?.[0])} />
-      <button type="button" className="text-accent underline disabled:opacity-50" disabled={busy} onClick={() => inputRef.current?.click()}>{busy ? "Reading photo…" : "Take a photo of the pass"}</button>
+      <button type="button" className="text-accent-strong underline disabled:opacity-50" disabled={busy} onClick={() => inputRef.current?.click()}>{busy ? "Reading photo…" : "Take a photo of the pass"}</button>
       {err && <p className="basis-full text-center text-sm text-danger">{err}</p>}
     </>
   );

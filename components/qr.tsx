@@ -8,7 +8,7 @@ export function Qr({ value, size = 200, className = "", label }: { value: string
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
     let alive = true;
-    QRCode.toDataURL(value, { width: size * 2, margin: 1, errorCorrectionLevel: "M", color: { dark: "#1c1917", light: "#ffffff" } }).then((u) => alive && setSrc(u));
+    QRCode.toDataURL(value, { width: size * 2, margin: 1, errorCorrectionLevel: "M", color: { dark: "#121212", light: "#ffffff" } }).then((u) => alive && setSrc(u));
     return () => { alive = false; };
   }, [value, size]);
   return (

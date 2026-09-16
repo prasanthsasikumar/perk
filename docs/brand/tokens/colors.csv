@@ -1,0 +1,10 @@
+Name,Hex Value,Role,WCAG AA Ratio
+Stamp Rust,#C95A2B,Brand Highlight / Active Punch,4.6:1
+Ink Primary,#121212,"Headings, Primary Text, Dark UI",19.3:1
+Ink Secondary,#525252,"Subtitles, Form Labels, Borders",7.0:1
+Ink Muted,#737373,"Captions, Timestamps, Table Data",4.6:1
+Hairline,#E5E5E5,"Structural Rules, Card Outlines",N/A
+Surface Base,#FFFFFF,"Core Canvas, Poster Surface",1.0:1
+Surface Muted,#F9F9FB,"Dashboard Cards, Table Headers",1.05:1
+Success,#15803D,"Valid Scans, Redeemed Status",4.7:1
+Danger,#B91C1C,"Errors, Revoked Stamps",5.9:1

@@ -11,7 +11,9 @@ export type StampGridProps = {
   style?: StampStyle;
   /** 1-based positions that bank a bonus reward; drawn with an outer ring. */
   milestones?: number[];
-  /** Empty cells: faint solid ring (default) or the dashed ring used on the shop landing page. */
+  /** Empty cells: faint solid ring (default) or the dashed ring used on the shop landing page.
+   *  Both read as "slot still open"; the dashed ring uses Ink Muted, not Hairline, so ten empty
+   *  slots stay legible on a phone (docs/brand/BRAND_IDENTITY.md §9.2). */
   emptyStyle?: "solid" | "dashed";
 };
 
@@ -33,7 +35,7 @@ export function StampGrid({ stamps, total, color, size = "md", className = "", s
               ...(filled
                 ? { background: color, borderColor: color, color: "#fff" }
                 : emptyStyle === "dashed"
-                  ? { background: "#fff", borderStyle: "dashed", borderWidth: 1.5, borderColor: "rgba(26,23,32,0.16)", color: `${color}88` }
+                  ? { background: "#fff", borderStyle: "dashed", borderWidth: 1.5, borderColor: "var(--ink-muted)", color: `${color}88` }
                   : { borderColor: `${color}55`, color: `${color}88` }),
               ...(milestone ? { outline: `2px solid ${color}`, outlineOffset: 2 } : {}),
             }}

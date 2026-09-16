@@ -1,0 +1,60 @@
+{
+  "fonts": {
+    "heading": "Space Grotesk",
+    "body": "Rethink Sans",
+    "mono": "JetBrains Mono"
+  },
+  "settings": {
+    "numeric": "tabular-nums"
+  },
+  "scale": [
+    {
+      "level": "Hero",
+      "size": "48px",
+      "lineHeight": "52px",
+      "weight": 700,
+      "tracking": "-0.03em",
+      "family": "Space Grotesk"
+    },
+    {
+      "level": "Section Heading",
+      "size": "24px",
+      "lineHeight": "30px",
+      "weight": 600,
+      "tracking": "-0.02em",
+      "family": "Space Grotesk"
+    },
+    {
+      "level": "Card Title",
+      "size": "18px",
+      "lineHeight": "24px",
+      "weight": 600,
+      "tracking": "-0.01em",
+      "family": "Rethink Sans"
+    },
+    {
+      "level": "Body",
+      "size": "15px",
+      "lineHeight": "22px",
+      "weight": 400,
+      "tracking": "0.00em",
+      "family": "Rethink Sans"
+    },
+    {
+      "level": "Label",
+      "size": "13px",
+      "lineHeight": "16px",
+      "weight": 500,
+      "tracking": "+0.01em",
+      "family": "Rethink Sans"
+    },
+    {
+      "level": "Caption / Mono",
+      "size": "12px",
+      "lineHeight": "16px",
+      "weight": 500,
+      "tracking": "+0.02em",
+      "family": "JetBrains Mono"
+    }
+  ]
+}

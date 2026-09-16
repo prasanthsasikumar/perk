@@ -1,0 +1,55 @@
+{
+  "brand": {
+    "stamp_rust": {
+      "hex": "#C95A2B",
+      "role": "Brand Highlight / Active Punch",
+      "wcag_contrast": "4.6:1"
+    }
+  },
+  "ink": {
+    "primary": {
+      "hex": "#121212",
+      "role": "Headings, Primary Text, Dark UI",
+      "wcag_contrast": "19.3:1"
+    },
+    "secondary": {
+      "hex": "#525252",
+      "role": "Subtitles, Form Labels, Borders",
+      "wcag_contrast": "7.0:1"
+    },
+    "muted": {
+      "hex": "#737373",
+      "role": "Captions, Timestamps, Table Data",
+      "wcag_contrast": "4.6:1"
+    }
+  },
+  "surface": {
+    "hairline": {
+      "hex": "#E5E5E5",
+      "role": "Structural Rules, Card Outlines",
+      "wcag_contrast": "N/A"
+    },
+    "base": {
+      "hex": "#FFFFFF",
+      "role": "Core Canvas, Poster Surface",
+      "wcag_contrast": "1.0:1"
+    },
+    "muted": {
+      "hex": "#F9F9FB",
+      "role": "Dashboard Cards, Table Headers",
+      "wcag_contrast": "1.05:1"
+    }
+  },
+  "semantic": {
+    "success": {
+      "hex": "#15803D",
+      "role": "Valid Scans, Redeemed Status",
+      "wcag_contrast": "4.7:1"
+    },
+    "danger": {
+      "hex": "#B91C1C",
+      "role": "Errors, Revoked Stamps",
+      "wcag_contrast": "5.9:1"
+    }
+  }
+}

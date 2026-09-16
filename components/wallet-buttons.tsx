@@ -27,7 +27,7 @@ export function WalletButtons({ platform, onApple, onGoogle, onWeb, compact = fa
         type="submit"
         className={
           stack
-            ? "flex h-[54px] w-full items-center justify-center rounded-[14px] border border-[rgba(26,23,32,0.14)] bg-white text-[15.5px] font-semibold text-[#1A1720] transition-colors hover:border-[rgba(26,23,32,0.26)] hover:bg-[#FBFAF8]"
+            ? "flex h-[54px] w-full items-center justify-center rounded-[14px] border border-line bg-white text-[15.5px] font-semibold text-ink transition-colors hover:border-ink-muted hover:bg-surface-muted"
             : "inline-flex h-12 items-center rounded-lg border border-line bg-paper px-4 text-[15px] font-medium text-ink hover:bg-accent-soft/50"
         }
       >

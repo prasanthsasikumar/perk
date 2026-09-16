@@ -39,6 +39,7 @@ Built for a real café in New Zealand — and free for any shop to use. If there
 
 Next.js 16 (App Router) · React 19 · Tailwind 4 · Drizzle ORM + Postgres (Supabase in prod, `@electric-sql/pglite` in tests) · Auth.js v5 magic links via Resend · `passkit-generator` + APNs for Apple Wallet · Google Wallet Objects API · Supabase Storage for logos · Vitest · Playwright.
 
+- Brand system: [`docs/brand/BRAND_IDENTITY.md`](docs/brand/BRAND_IDENTITY.md) — palette, type scale, the mark, and the rules that keep Perk out of a shop's own branding. Tokens live in `app/globals.css`.
 - Design spec: [`docs/superpowers/specs/2026-08-31-perk-v1-design.md`](docs/superpowers/specs/2026-08-31-perk-v1-design.md)
 - Implementation plan: [`docs/superpowers/plans/2026-08-31-perk-v1.md`](docs/superpowers/plans/2026-08-31-perk-v1.md)
 - Manual test checklist: [`docs/manual-testing.md`](docs/manual-testing.md)
