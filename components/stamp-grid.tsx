@@ -11,10 +11,12 @@ export type StampGridProps = {
   style?: StampStyle;
   /** 1-based positions that bank a bonus reward; drawn with an outer ring. */
   milestones?: number[];
+  /** Empty cells: faint solid ring (default) or the dashed ring used on the shop landing page. */
+  emptyStyle?: "solid" | "dashed";
 };
 
 /** Row(s) of stamp cells. Server-safe. */
-export function StampGrid({ stamps, total, color, size = "md", className = "", style = "check", milestones = [] }: StampGridProps) {
+export function StampGrid({ stamps, total, color, size = "md", className = "", style = "check", milestones = [], emptyStyle = "solid" }: StampGridProps) {
   const dim = size === "sm" ? "h-6 w-6" : size === "lg" ? "h-12 w-12" : "h-9 w-9";
   const cols = total <= 5 ? total : total <= 8 ? 4 : 5;
   return (
@@ -28,7 +30,11 @@ export function StampGrid({ stamps, total, color, size = "md", className = "", s
             aria-hidden
             className={`flex ${dim} items-center justify-center rounded-full border-2 transition-colors`}
             style={{
-              ...(filled ? { background: color, borderColor: color, color: "#fff" } : { borderColor: `${color}55`, color: `${color}88` }),
+              ...(filled
+                ? { background: color, borderColor: color, color: "#fff" }
+                : emptyStyle === "dashed"
+                  ? { background: "#fff", borderStyle: "dashed", borderWidth: 1.5, borderColor: "rgba(26,23,32,0.16)", color: `${color}88` }
+                  : { borderColor: `${color}55`, color: `${color}88` }),
               ...(milestone ? { outline: `2px solid ${color}`, outlineOffset: 2 } : {}),
             }}
           >

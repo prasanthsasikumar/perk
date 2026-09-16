@@ -55,3 +55,13 @@ export function applyStamp(state: StampState, shop: TierShop): StampStep {
   const isFinal = stamps >= shop.stampsRequired;
   return { stamps: isFinal ? 0 : stamps, pendingRewards: [...state.pendingRewards, hit.reward], earned: hit.reward };
 }
+
+/** One line under the stamp grid: what happens next for this card. */
+export function statusLine(stamps: number, pending: string[], tiers: RewardTier[]): string {
+  if (pending.length > 0 && stamps === 0) return `Reward ready: ${pending[pending.length - 1]}. Claim it at the counter.`;
+  if (stamps === 0) return "Your card starts empty. First stamp with your next coffee.";
+  const next = tiers.find((t) => t.stamps > stamps) ?? tiers[tiers.length - 1];
+  const left = next.stamps - stamps;
+  return `${left} ${left === 1 ? "stamp" : "stamps"} to go. Next up: ${next.reward}.`;
+}
+

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { applyStamp, bonusStampPositions, countRewards, describeTiers, rewardTiers, summarizeRewards } from "@/lib/domain/tiers";
+import { applyStamp, bonusStampPositions, countRewards, describeTiers, rewardTiers, statusLine, summarizeRewards } from "@/lib/domain/tiers";
 
 const single = { stampsRequired: 10, rewardText: "Free coffee", rewardTiers: [] };
 const tiered = { stampsRequired: 10, rewardText: "Free gelato", rewardTiers: [{ stamps: 5, reward: "Free coffee" }] };
@@ -40,5 +40,15 @@ describe("reward summaries", () => {
     expect(countRewards(["Free coffee", "Gelato", "Free coffee"])).toEqual([{ reward: "Free coffee", count: 2 }, { reward: "Gelato", count: 1 }]);
     expect(summarizeRewards(["Free coffee", "Gelato", "Free coffee"])).toBe("Free coffee ×2 · Gelato");
     expect(summarizeRewards([])).toBe("");
+  });
+});
+
+describe("landing page status line", () => {
+  it("describes the next step for the card", () => {
+    const tiers = [{ stamps: 5, reward: "Free coffee" }, { stamps: 10, reward: "Free gelato" }];
+    expect(statusLine(0, [], tiers)).toBe("Your card starts empty. First stamp with your next coffee.");
+    expect(statusLine(3, [], tiers)).toBe("2 stamps to go. Next up: Free coffee.");
+    expect(statusLine(9, ["Free coffee"], tiers)).toBe("1 stamp to go. Next up: Free gelato.");
+    expect(statusLine(0, ["Free coffee", "Free gelato"], tiers)).toBe("Reward ready: Free gelato. Claim it at the counter.");
   });
 });
