@@ -10,8 +10,7 @@ type Action = (formData: FormData) => void | Promise<void>;
  */
 export function WalletButtons({ platform, onApple, onGoogle, onWeb, compact = false, layout = "row" }: { platform: Platform; onApple: Action; onGoogle: Action; onWeb?: Action; compact?: boolean; layout?: "row" | "stack" }) {
   const stack = layout === "stack";
-  // Stacked: both badges share one width (Google, the wider badge, lands at its 48px minimum height).
-  const badge = stack ? { width: 272 } : { height: 48 };
+  const badge = { height: stack ? 56 : 48 };
   const apple = (
     <form action={onApple} key="apple" className={stack ? "flex justify-center" : undefined}>
       <button type="submit" className="block transition-transform active:scale-[0.98]" aria-label="Add to Apple Wallet"><AppleWalletBadge {...badge} /></button>
