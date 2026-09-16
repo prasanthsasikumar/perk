@@ -4,6 +4,7 @@ import { getEnv } from "@/lib/env";
 import { buildScanUrl } from "@/lib/security/hmac";
 import { Qr } from "@/components/qr";
 import { PrintButton } from "./print-button";
+import { AppleWalletBadge, GoogleWalletBadge } from "@/components/wallet-badges";
 import { rewardTiers } from "@/lib/domain/tiers";
 import "./print.css";
 
@@ -29,7 +30,7 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
           <PrintButton />
         </div>
         {sheet === "landing" && (
-          <Poster color={shop.brandColor} title={`Get a free ${shop.rewardText.toLowerCase().replace(/^free\s+/, "")}`} subtitle={tiers.length > 1 ? `${tiers.map((t) => `${t.stamps} stamps = ${t.reward}`).join(" · ")} at ${shop.name}` : `Collect ${shop.stampsRequired} stamps at ${shop.name}`} qr={landingUrl} footer="Scan to add your stamp card to Apple Wallet or Google Wallet. No app, no sign-up." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
+          <Poster color={shop.brandColor} title={`Get a free ${shop.rewardText.toLowerCase().replace(/^free\s+/, "")}`} subtitle={tiers.length > 1 ? `${tiers.map((t) => `${t.stamps} stamps = ${t.reward}`).join(" · ")} at ${shop.name}` : `Collect ${shop.stampsRequired} stamps at ${shop.name}`} qr={landingUrl} footer="Scan to add your stamp card to Apple Wallet or Google Wallet. No app, no sign-up." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} walletBadges />
         )}
         {sheet === "scan" && (
           <Poster color={shop.brandColor} title="Scan to stamp" subtitle={`One stamp per visit · ${tiers.map((t) => `${t.stamps} stamps = ${t.reward}`).join(" · ")}`} qr={scanUrl} footer="Bought a coffee? Scan this with your phone camera to add a stamp to your card." url={landingUrl} logoUrl={shop.logoUrl} name={shop.name} />
@@ -58,12 +59,12 @@ export default async function PrintPage({ searchParams }: PageProps<"/dashboard/
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Print</h1>
-        <p className="text-ink-soft">A4 sheets for the counter and your team. Open one, then print.</p>
+        <p className="text-ink-soft">A4 sheets to display for your customers and your staff. Open one, then print.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <SheetCard href="/dashboard/print?sheet=landing" title="Counter poster" body="“Get your free coffee card” with a QR to your URL. Every shop needs this one." />
-        {shop.stampMode === "customer" && <SheetCard href="/dashboard/print?sheet=scan" title="Scan-to-stamp poster" body="The QR customers scan after buying. Rotate it in Settings if it leaks." />}
-        <SheetCard href="/dashboard/print?sheet=staff" title="Staff card" body="Staff URL, PIN and three-step instructions. Keep behind the counter." />
+        <SheetCard href="/dashboard/print?sheet=landing" title="Customer poster" body="Display this poster for customers to add a new digital loyalty card to their Wallet." />
+        {shop.stampMode === "customer" && <SheetCard href="/dashboard/print?sheet=scan" title="Scan-to-stamp poster" body="The QR customers scan after buying. Refresh it in Settings if it leaks." />}
+        <SheetCard href="/dashboard/print?sheet=staff" title="Staff instructions" body="Instructions to access staff URL and PIN to scan customer’s cards. Keep this behind the counter." />
       </div>
     </div>
   );
@@ -79,7 +80,7 @@ function SheetCard({ href, title, body }: { href: string; title: string; body: s
   );
 }
 
-function Poster({ color, title, subtitle, qr, footer, url, logoUrl, name }: { color: string; title: string; subtitle: string; qr: string; footer: string; url: string; logoUrl: string | null; name: string }) {
+function Poster({ color, title, subtitle, qr, footer, url, logoUrl, name, walletBadges = false }: { color: string; title: string; subtitle: string; qr: string; footer: string; url: string; logoUrl: string | null; name: string; walletBadges?: boolean }) {
   return (
     <div className="poster flex flex-col items-center rounded-3xl p-12 text-center text-white" style={{ background: color, minHeight: "270mm" }}>
       <div className="flex items-center gap-3">
@@ -91,6 +92,12 @@ function Poster({ color, title, subtitle, qr, footer, url, logoUrl, name }: { co
       <p className="mt-4 text-xl opacity-90">{subtitle}</p>
       <div className="mt-12"><Qr value={qr} size={300} label="QR code" /></div>
       <p className="mt-10 max-w-md text-lg opacity-90">{footer}</p>
+      {walletBadges && (
+        <div className="mt-8 rounded-2xl bg-white px-6 py-5 text-left text-ink" aria-label="Works with Apple Wallet and Google Wallet">
+          <p className="text-sm text-ink-soft">Keep it in your wallet</p>
+          <div className="mt-3 flex flex-col items-start gap-3"><AppleWalletBadge /><GoogleWalletBadge /></div>
+        </div>
+      )}
       <p className="mt-auto pt-10 font-mono text-sm opacity-80">{url}</p>
     </div>
   );

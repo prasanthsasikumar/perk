@@ -10,7 +10,8 @@ Things that need a real device or a real third-party account. Run before each re
 - [ ] `/login` → magic link arrives via Resend → lands on `/onboarding`.
 - [ ] Onboarding with a logo upload → logo appears in dashboard settings and on `/<slug>`.
 - [ ] Reserved slug (`dashboard`) and duplicate slug are rejected with field errors.
-- [ ] Dashboard Print → all three sheets print on A4 with brand colour (background graphics on).
+- [ ] Dashboard Print → all three sheets print on A4 with brand colour (background graphics on). Customer poster shows the Apple Wallet and Google Wallet badges.
+- [ ] Dashboard Activity → changing the event-type dropdown filters the table immediately.
 
 ## Apple Wallet (iPhone)
 - [ ] `/<slug>` on Safari shows "Add to Apple Wallet" first; tapping opens the pass preview; Add succeeds.
@@ -36,13 +37,13 @@ Things that need a real device or a real third-party account. Run before each re
 - [ ] Camera scan of an Apple pass QR and a Google pass QR both resolve the card.
 - [ ] Manual code entry with lowercase and dashes works.
 - [ ] Double-tap +1 within 5 s → "Already stamped a moment ago", count unchanged.
-- [ ] Rotate PIN in Settings → staff device is bounced to the PIN form.
+- [ ] Refresh PIN in Settings → staff device is bounced to the PIN form.
 
 ## Customer-scan mode
 - [ ] Switch shop to customer mode; print "Scan to stamp" sheet.
 - [ ] Scan without a card → "Get your card first" → get card → redirected back and stamped in one flow.
 - [ ] Scan again inside cooldown → "Already stamped… after HH:MM".
-- [ ] Rotate stamp QR in Settings → old poster shows "no longer valid".
+- [ ] Refresh stamp QR in Settings → old poster shows "no longer valid".
 
 ## Dashboard
 - [ ] Customers search by code and by email; adjust −2 with a note → activity shows "Adjusted −2" with owner email.

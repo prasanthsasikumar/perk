@@ -114,7 +114,7 @@ export function SettingsForm({ shop }: { shop: ShopSettings }) {
         <CardTitle>Stamping</CardTitle>
         <Field label="How stamps are added" htmlFor="stampMode" error={e.stampMode}>
           <Select id="stampMode" name="stampMode" value={mode} onChange={(ev) => setMode(ev.target.value as "barista" | "customer")}>
-            <option value="barista">Baristas scan the customer&rsquo;s card</option>
+            <option value="barista">Baristas scan the customer&rsquo;s card (recommended)</option>
             <option value="customer">Customers scan a QR at the counter</option>
           </Select>
         </Field>

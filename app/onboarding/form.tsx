@@ -64,7 +64,7 @@ export function OnboardingForm({ appHost }: { appHost: string }) {
         <Card className="space-y-5">
           <h2 className="text-lg font-semibold">How stamps are added</h2>
           <div className="grid gap-3 sm:grid-cols-2">
-            <ModeOption name="stampMode" value="barista" checked={mode === "barista"} onChange={() => setMode("barista")} title="Baristas scan the card" body="Your staff scan the customer's pass with any phone. Most secure." />
+            <ModeOption name="stampMode" value="barista" checked={mode === "barista"} onChange={() => setMode("barista")} title="Baristas scan the card (recommended)" body="Your staff scan the customer's pass with any phone. Most secure." />
             <ModeOption name="stampMode" value="customer" checked={mode === "customer"} onChange={() => setMode("customer")} title="Customers scan a QR" body="Print a QR for the counter. Customers scan it after buying; one stamp per cooldown." />
           </div>
           {mode === "customer" && (

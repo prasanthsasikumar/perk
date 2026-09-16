@@ -33,18 +33,18 @@ export default async function SettingsPage() {
             <p className="font-mono text-2xl tracking-[0.3em]">{shop.staffPin}</p>
           </div>
           <form action={rotatePin}>
-            <Button type="submit" variant="secondary">Rotate PIN</Button>
+            <Button type="submit" variant="secondary">Refresh PIN</Button>
           </form>
         </div>
-        <p className="text-xs text-ink-muted">Rotating signs out every staff device. Share the new PIN with your team.</p>
+        <p className="text-xs text-ink-muted">Refreshing signs out every staff device. Share the new PIN with your team.</p>
       </Card>
 
       {shop.stampMode === "customer" && (
         <Card className="space-y-3">
           <CardTitle>Stamp QR</CardTitle>
-          <p className="text-sm text-ink-soft">If a “Scan to stamp” poster leaks online, rotate it. Old posters stop working immediately; reprint from the Print page.</p>
+          <p className="text-sm text-ink-soft">If a “Scan to stamp” poster leaks online, refresh it. Old posters stop working immediately; reprint from the Print page.</p>
           <form action={rotateQr}>
-            <Button type="submit" variant="danger">Rotate stamp QR</Button>
+            <Button type="submit" variant="danger">Refresh stamp QR</Button>
           </form>
         </Card>
       )}

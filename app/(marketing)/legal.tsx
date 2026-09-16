@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 export const LEGAL_UPDATED = "16 September 2026";
-export const CONTACT_EMAIL = "prasanth@ahlab.org";
+export const CONTACT_EMAIL = "hello@junadesign.co.nz";
+export const COMPANY = "Juna Design Ltd";
 
 /** Shared shell for the privacy policy and terms pages. */
 export function LegalPage({ title, intro, children }: { title: string; intro: string; children: React.ReactNode }) {
@@ -38,7 +39,7 @@ export function Section({ title, children }: { title: string; children: React.Re
   return (
     <section className="space-y-3">
       <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-      <div className="max-w-prose space-y-3 text-ink-soft [&_li]:ml-5 [&_li]:list-disc [&_strong]:text-ink">{children}</div>
+      <div className="max-w-prose space-y-3 text-ink-soft [&_li]:ml-5 [&_li]:list-disc [&_strong]:text-ink [&_code]:rounded [&_code]:bg-black/5 [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.9em]">{children}</div>
     </section>
   );
 }

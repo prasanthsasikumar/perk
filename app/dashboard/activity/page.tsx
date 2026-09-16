@@ -4,7 +4,7 @@ import { db } from "@/lib/db/client";
 import { listEvents } from "@/lib/db/queries/events";
 import { EVENT_TYPES, type EventType } from "@/lib/db/schema";
 import { Card } from "@/components/ui/card";
-import { Select } from "@/components/ui/input";
+import { TypeFilter } from "./filter";
 import { EventBadge, SOURCE_LABELS, fmtTime } from "@/components/event-badge";
 
 export const metadata = { title: "Activity" };
@@ -24,17 +24,7 @@ export default async function ActivityPage({ searchParams }: PageProps<"/dashboa
           <h1 className="text-2xl font-semibold tracking-tight">Activity</h1>
           <p className="text-ink-soft">Every stamp, reward and adjustment, newest first.</p>
         </div>
-        <form className="w-full sm:w-56">
-          <Select name="type" defaultValue={type ?? ""} aria-label="Filter by type">
-            <option value="">All events</option>
-            <option value="stamp">Stamps</option>
-            <option value="reward_earned">Rewards earned</option>
-            <option value="redeem">Redemptions</option>
-            <option value="adjust">Adjustments</option>
-            <option value="card_created">New cards</option>
-          </Select>
-          <button type="submit" className="sr-only">Filter</button>
-        </form>
+        <TypeFilter value={type ?? ""} />
       </div>
       <Card className="overflow-hidden p-0">
         {items.length === 0 ? <p className="p-6 text-sm text-ink-muted">No events yet.</p> : (

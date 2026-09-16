@@ -58,7 +58,7 @@ export default function MarketingPage() {
             <Spec term="Anonymous by default" desc="Customers never sign up. They can add an email later to back their card up." />
             <Spec term="A ledger, not a counter" desc="Every stamp, reward and adjustment is an event with a source and a timestamp." />
             <Spec term="Your brand on the card" desc="Logo and colour on the pass and the posters. Your URL is perk.app/your-shop." />
-            <Spec term="Staff access without accounts" desc="A six-digit PIN opens the scanner on any phone. Rotate it and every device signs out." />
+            <Spec term="Staff access without accounts" desc="A six-digit PIN opens the scanner on any phone. Refresh it and every device signs out." />
           </dl>
         </section>
 
