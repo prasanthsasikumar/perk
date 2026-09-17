@@ -1,6 +1,7 @@
 import { JWT } from "google-auth-library";
 import { importPKCS8, SignJWT } from "jose";
-import type { Card, Shop } from "@/lib/db/schema";
+import { and, eq, isNotNull } from "drizzle-orm";
+import { cards, type Card, type Shop } from "@/lib/db/schema";
 import { getEnv, pemFromEnv } from "@/lib/env";
 import { db } from "@/lib/db/client";
 import { setGoogleClassId } from "@/lib/db/queries/shops";
@@ -99,6 +100,27 @@ export async function updateGoogleClass(shop: Shop): Promise<void> {
   const body = buildLoyaltyClass(shop, e.GOOGLE_WALLET_ISSUER_ID!, e.NEXT_PUBLIC_APP_URL);
   if (e.WALLET_DRY_RUN_BOOL) return console.log("[google] dry-run: would PATCH class", shop.googleClassId);
   await client().request({ url: `${API}/loyaltyClass/${shop.googleClassId}`, method: "PATCH", data: body });
+}
+
+/**
+ * PATCH every saved object in the shop. The class only carries branding; the stamp target and the
+ * tier text live on each object, so a program change has to reach them one by one.
+ */
+export async function updateGoogleObjects(shop: Shop, concurrency = 6): Promise<void> {
+  if (!isGoogleConfigured()) return;
+  const rows = await db.select().from(cards).where(and(eq(cards.shopId, shop.id), isNotNull(cards.googleObjectId)));
+  let next = 0;
+  const worker = async () => {
+    while (next < rows.length) {
+      const card = rows[next++];
+      try {
+        await googleWallet.updatePass(shop, card);
+      } catch (e) {
+        console.error("[google] object update failed", { shopId: shop.id, cardId: card.id }, e);
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(concurrency, rows.length) }, worker));
 }
 
 export const googleWallet: WalletProvider = {

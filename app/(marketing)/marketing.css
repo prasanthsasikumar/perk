@@ -1,9 +1,26 @@
-/* Hallmark · macrostructure: Narrative Workflow · theme: Perk brand system (docs/brand/BRAND_IDENTITY.md) · paper #ffffff · accent Stamp Rust #C95A2B · fonts: Space Grotesk + Rethink Sans + JetBrains Mono · nav: wordmark+signin · footer: Ft2 inline · enrichment: Tier A CSS product visuals · studied: yes
- * Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 */
+/* Hallmark · macrostructure: Narrative Workflow · theme: Juna plum (client Figma, "home / 1920w light")
+ * paper #ffffff · accent Plum #751E68 · display Rethink Sans · nav: wordmark+signin · footer: Ft1 inline
+ * enrichment: Tier A CSS product visuals · studied: yes (client-supplied Figma frames)
+ * Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
 
-.mk-stage { position: relative; }
+/* The landing page runs the pre-rebrand Juna plum and Rethink Sans headings the client signed off in
+ * Figma. Scoped to .mk on purpose: the dashboard, the shop pages, the wallet passes and the posters
+ * stay on the Perk brand system in app/globals.css until the launch rebrand lands. */
+.mk {
+  --accent: #751e68;
+  /* Plum is 9.8:1 on white, so unlike Stamp Rust it needs no separate AA-safe variant. */
+  --accent-strong: #751e68;
+  --accent-soft: #f5eef4;
+  --font-display: var(--font-rethink-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.mk h1,
+.mk h2,
+.mk h3 {
+  font-family: var(--font-display);
+}
+
 .mk-stage + .mk-stage { border-top: 1px solid var(--line); }
 
-
-.mk-phone { width: 232px; border-radius: 28px; border: 1px solid var(--line); background: var(--paper); padding: 14px; box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 24px 40px -28px rgba(28,25,23,0.35); }
+.mk-phone { width: 232px; border-radius: 28px; border: 1px solid var(--line); background: var(--paper); padding: 14px; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 24px 40px -28px rgba(28, 25, 23, 0.35); }
 .mk-pass { border-radius: 20px; background: var(--accent); color: var(--accent-ink); padding: 16px; }

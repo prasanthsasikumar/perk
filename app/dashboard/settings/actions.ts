@@ -7,6 +7,7 @@ import { rotateQrSecret, rotateStaffPin, updateShopSettings } from "@/lib/db/que
 import { fieldErrors, formToObject, shopSettingsSchema, SETTINGS_KEYS, type FieldErrors } from "@/lib/validation/shop";
 import { isStorageConfigured, uploadLogo } from "@/lib/storage/logos";
 import { updateGoogleClass } from "@/lib/wallet/google";
+import { passContentChanged, scheduleShopWalletUpdate } from "@/lib/wallet";
 
 export type SettingsState = { ok?: boolean; errors?: FieldErrors };
 
@@ -24,6 +25,9 @@ export async function saveSettings(_prev: SettingsState, formData: FormData): Pr
   const updated = await updateShopSettings(db, shop.id, { ...parsed.data, ...(logoUrl ? { logoUrl } : {}) });
   const brandingChanged = updated.name !== shop.name || updated.brandColor !== shop.brandColor || updated.logoUrl !== shop.logoUrl;
   if (brandingChanged) updateGoogleClass(updated).catch((e) => console.error("[google] class update failed", e));
+  // updateShopSettings already bumped every card's updated_at, so the pass endpoint will serve the new
+  // version. Nothing asks for it until we push, so the wallet passes go stale without this.
+  if (passContentChanged(shop, updated)) scheduleShopWalletUpdate(updated);
   revalidatePath("/dashboard", "layout");
   return { ok: true };
 }
