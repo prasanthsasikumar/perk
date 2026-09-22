@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { StampGrid } from "@/components/stamp-grid";
 import { PerkMark } from "@/components/perk-mark";
+import { APP_HOST } from "@/lib/site";
 import "./marketing.css";
 
 export const metadata = { title: "Perk: digital loyalty cards made easy" };
@@ -62,7 +63,7 @@ export default function MarketingPage() {
             <Spec term="Two stamping modes" desc="Staff-scan for control, customer-scan for speed. Switch any time in Settings." />
             <Spec term="Anonymous by default" desc="No sign up or app downloads for customers. They can add an email later to back their card up." />
             <Spec term="A dashboard, not a counter" desc="Every stamp, reward and adjustment is recorded with a timestamp. Track recent activity and redemptions in your dashboard." />
-            <Spec term="Your brand on the card" desc="Logo and colour on the pass and the posters. Your URL is perk.app/your-shop." />
+            <Spec term="Your brand on the card" desc={`Logo and colour on the pass and the posters. Your URL is ${APP_HOST}/your-shop.`} />
             <Spec term="Staff access without accounts" desc="A six-digit PIN opens the scanner on any phone. Refresh the PIN and every device signs out." />
           </dl>
         </section>
@@ -195,7 +196,7 @@ function SetupVisual() {
   return (
     <figure className="w-full max-w-xs rounded-card border border-line bg-paper p-5" aria-label="Setup preview: your shop URL and staff PIN">
       <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">Your URL</p>
-      <p className="mt-1 font-mono text-sm">perk.app/<span className="rounded bg-accent-soft px-1 text-accent-strong">your-shop</span></p>
+      <p className="mt-1 font-mono text-sm">{APP_HOST}/<span className="rounded bg-accent-soft px-1 text-accent-strong">your-shop</span></p>
       <p className="mt-5 text-xs font-medium uppercase tracking-wide text-ink-muted">Staff PIN</p>
       <p className="mt-2 font-mono text-2xl leading-none tracking-[0.3em]">••••••</p>
     </figure>
