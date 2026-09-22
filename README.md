@@ -4,7 +4,7 @@
 
 **Digital loyalty stamp cards for coffee shops — delivered to Apple Wallet and Google Wallet.**
 
-[**Live app →** getperk.vercel.app](https://getperk.vercel.app) · [Watch the 50-second teaser](https://youtube.com/shorts/dtcs-cNDu7k)
+[**Live app →** perk.junadesign.co.nz](https://perk.junadesign.co.nz) · [Watch the 50-second teaser](https://youtube.com/shorts/dtcs-cNDu7k)
 
 [![Perk teaser video](docs/media/teaser-thumb.png)](https://youtube.com/shorts/dtcs-cNDu7k)
 
@@ -12,7 +12,7 @@
 
 ---
 
-A shop signs up with a magic link, configures its card (logo, colour, stamps, reward, stamping mode), and gets a URL like `getperk.vercel.app/your-shop`. Customers open that link, tap once, and the card is in their wallet — no app, no account. Baristas scan the pass to stamp and redeem; passes update live on the customer's phone via APNs and the Google Wallet API. Owners get a dashboard with counters, a customer list with manual adjustments, an activity ledger, and printable counter posters.
+A shop signs up with a magic link, configures its card (logo, colour, stamps, reward, stamping mode), and gets a URL like `perk.junadesign.co.nz/your-shop`. Customers open that link, tap once, and the card is in their wallet — no app, no account. Baristas scan the pass to stamp and redeem; passes update live on the customer's phone via APNs and the Google Wallet API. Owners get a dashboard with counters, a customer list with manual adjustments, an activity ledger, and printable counter posters.
 
 Built for a real café in New Zealand — and free for any shop to use. If there's enough interest it stays free and keeps growing.
 
