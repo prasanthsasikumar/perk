@@ -49,6 +49,7 @@ export default function PrivacyPage() {
           <li><strong>A cloud hosting and database provider</strong>: to run Perk and store Shop and card data.</li>
           <li><strong>A transactional email provider</strong>: to send magic-link sign-in emails and, where a customer opts in, card backup emails.</li>
         </ul>
+        <p>To count visits to this website we use Google Analytics and PostHog in a cookieless configuration. No cookies or device storage are used for analytics, and nothing is used for advertising.</p>
       </Section>
 
       <Section title="5. Your rights">
